@@ -1,6 +1,6 @@
 
-// weight for Depthwise layer has dimension of  torch.Size([3, 3, 1, 32]) 
-extern float MBConv1_0_depthwise_conv_conv2d_weights  [3 * 3 * 1 * 32]  =  
+// weight for Depthwise layer has dimension of  torch.Size([3, 3, 1, 32])
+float MBConv1_0_depthwise_conv_conv2d_weights  [3 * 3 * 1 * 32]  =
 	{
 	-0.03292532, -0.35945484,  0.00521705 ,
 	0.07394724,  0.73812872, -0.07195859 ,
@@ -159,12 +159,12 @@ extern float MBConv1_0_depthwise_conv_conv2d_weights  [3 * 3 * 1 * 32]  =
 
 	0.48088068, -0.62238765, -0.22805116 ,
 	1.77634037, -0.66748214, -0.55385017 ,
-	-0.07856108, -0.40444499,  0.18519810 
+	-0.07856108, -0.40444499,  0.18519810
 };
 
 // Parameters for BN in Depthwise layer Weight shape =  torch.Size([32])
 
-extern float MBConv1_0_depthwise_conv_BN_weights  [32]  = 
+float MBConv1_0_depthwise_conv_BN_weights  [32]  =
 {
 	0.70870876, 1.23043561, 4.56025362, 2.64616704, 2.20662498, 3.21518612,
 	3.11803246, 1.34075689, 3.85315037, 4.46677113, 1.29283488, 4.27125263,
@@ -174,7 +174,7 @@ extern float MBConv1_0_depthwise_conv_BN_weights  [32]  =
 	3.81758547, 1.55175877
 };
 
-extern float MBConv1_0_depthwise_conv_BN_bias  [32]  = 
+float MBConv1_0_depthwise_conv_BN_bias  [32]  =
 {
 	0.09355987, -1.70364785,  2.28658056,  1.72414136,  4.97848845,
 	2.70625114,  2.37036824,  0.79834080,  1.44467974,  0.55261970,
@@ -182,11 +182,11 @@ extern float MBConv1_0_depthwise_conv_BN_bias  [32]  =
 	2.93422341,  7.84576178,  1.27535462,  1.78425145, -0.01010301,
 	6.31738663,  1.89672947,  1.22857761,  4.36844110,  1.92273462,
 	-2.06831574,  1.89539528,  2.22336483,  0.56839150,  0.99465328,
-	1.73356128,  1.59912241		 
+	1.73356128,  1.59912241
 };
 
 
-extern float MBConv1_0_depthwise_conv_BN_mean  [32]  = 
+float MBConv1_0_depthwise_conv_BN_mean  [32]  =
 {
 	-0.04372812,      0.00606236,      0.98591650,      0.08958923,
 	0.07123029,      2.15387130,     -1.19204652,     -0.02944879,
@@ -195,11 +195,11 @@ extern float MBConv1_0_depthwise_conv_BN_mean  [32]  =
 	-4.35659266,     -0.09311606,     -0.14844729,      0.01026300,
 	-1.31514633,     -0.01269536,      0.31426680,     -0.20560259,
 	1.30023825,     -0.03688928,      0.00115384,      0.90828174,
-	-2.75022697,     -0.04071514,      0.27321750,     -0.51006395		
+	-2.75022697,     -0.04071514,      0.27321750,     -0.51006395
 };
 
 
-extern float MBConv1_0_depthwise_conv_BN_variance  [32] = 
+float MBConv1_0_depthwise_conv_BN_variance  [32] =
 {
 	0.00743733,     0.02219386,     9.52487659,     0.37861595,
 	0.03954346,    11.67193604,     2.41580105,     0.01711238,
@@ -210,5 +210,3 @@ extern float MBConv1_0_depthwise_conv_BN_variance  [32] =
 	3.50098801,     0.22751917,     0.00574232,    34.94352341,
 	7.99156427,     0.01577999,     4.96889734,     2.82004118
 };
-
-

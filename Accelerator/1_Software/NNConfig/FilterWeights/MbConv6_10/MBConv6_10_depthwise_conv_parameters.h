@@ -1,6 +1,6 @@
 
 // weight for Depthwise layer has dimension of torch.Size( 672, 1, 5, 5  )
-extern float MBConv6_10_depthwise_conv_conv2d_weights  [672 * 1 * 5 * 5]   =  
+float MBConv6_10_depthwise_conv_conv2d_weights  [672 * 1 * 5 * 5]   =
 {
 -0.01504216,     -0.00257504,      0.04003066,      0.00399354,
                -0.01027288  ,
@@ -8066,10 +8066,10 @@ extern float MBConv6_10_depthwise_conv_conv2d_weights  [672 * 1 * 5 * 5]   =
                -0.01671516
 };
 
-// Parameters for BN in Depthwise layer 
+// Parameters for BN in Depthwise layer
 // Weight shape =  torch.Size([672])
 
-extern float MBConv6_10_depthwise_conv_BN_weights  [672]   = 
+float MBConv6_10_depthwise_conv_BN_weights  [672]   =
 {
 1.25172305, 1.68375659, 2.09874225, 0.84806144, 1.05018973, 1.31128025,
         1.66207600, 1.49663103, 1.54542911, 1.56213164, 1.79821360, 1.66939962,
@@ -8185,7 +8185,7 @@ extern float MBConv6_10_depthwise_conv_BN_weights  [672]   =
         1.37986839, 1.00882292, 2.13022804, 1.30435002, 0.91454065, 1.45728612
 };
 
-extern float MBConv6_10_depthwise_conv_BN_bias  [672]   = 
+float MBConv6_10_depthwise_conv_BN_bias  [672]   =
 {
 		  0.13861835,     -0.76437402,     -2.27419162,      0.17412023,
              0.00463348,     -0.77472603,     -2.37100434,     -0.77431375,
@@ -8358,7 +8358,7 @@ extern float MBConv6_10_depthwise_conv_BN_bias  [672]   =
 };
 
 
-extern float MBConv6_10_depthwise_conv_BN_mean  [672]   = 
+float MBConv6_10_depthwise_conv_BN_mean  [672]   =
 {
 		0.00550337,     -0.02783839,     -0.14758180,     -0.00716180,
             -0.00962371,      0.00080397,     -0.18227935,      0.08516806,
@@ -8531,7 +8531,7 @@ extern float MBConv6_10_depthwise_conv_BN_mean  [672]   =
 };
 
 
-extern float MBConv6_10_depthwise_conv_BN_variance  [672]   = 
+float MBConv6_10_depthwise_conv_BN_variance  [672]   =
 {
 0.02944435,     0.02676988,     0.00540131,     0.02669329,
             0.01700181,     0.04159940,     0.01218015,     0.06924549,
@@ -8702,5 +8702,3 @@ extern float MBConv6_10_depthwise_conv_BN_variance  [672]   =
             0.13769057,     0.01074589,     0.00676073,     0.17509863,
             0.02256543,     0.00386972,     0.01953008,     0.00289992
 };
-
-

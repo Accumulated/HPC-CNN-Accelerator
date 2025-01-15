@@ -1,6 +1,6 @@
 
 // weight for Expansion Convolution layer has dimension of  torch.Size([1, 1, 144, 6])
-extern float MBConv6_2_squeeze_excitation1_conv2d_weights [1 * 1 * 144 * 6] =  
+float MBConv6_2_squeeze_excitation1_conv2d_weights [1 * 1 * 144 * 6] =
 {
 -0.07108013,     -0.10852538,     -0.02175324,      0.00988367,
                 0.01554345,     -0.00713150,     -0.00079755,     -0.07401760,
@@ -221,8 +221,8 @@ extern float MBConv6_2_squeeze_excitation1_conv2d_weights [1 * 1 * 144 * 6] =
 
 };
 
-// weight for Squeeze Excitation2 layer  has dimension of torch.Size([1, 1, 6, 144]) 
-extern float MBConv6_2_squeeze_excitation2_conv2d_weights [1 * 1 * 6 * 144] =  
+// weight for Squeeze Excitation2 layer  has dimension of torch.Size([1, 1, 6, 144])
+float MBConv6_2_squeeze_excitation2_conv2d_weights [1 * 1 * 6 * 144] =
 {
 0.04248275,      0.18599859,     -0.04377101,      0.28775325,
                 0.03436464,      0.04248809,     -0.04665750,      0.00903772,
@@ -444,7 +444,7 @@ extern float MBConv6_2_squeeze_excitation2_conv2d_weights [1 * 1 * 6 * 144] =
 
 
 // Bias for Squeeze Excitation1 layer has dimension of torch.Size([6])
-extern float MBConv6_2_squeeze_excitation1_conv2d_bias [6] =  
+float MBConv6_2_squeeze_excitation1_conv2d_bias [6] =
 {
 -0.06270412,  0.19453764,  0.08676807,  0.02188017,  0.07725313,
            -0.06268004
@@ -452,7 +452,7 @@ extern float MBConv6_2_squeeze_excitation1_conv2d_bias [6] =
 
 
 // Bias for Squeeze Excitation2 layer has dimension of  torch.Size([144])
-extern float MBConv6_2_squeeze_excitation2_conv2d_bias [144] =  
+float MBConv6_2_squeeze_excitation2_conv2d_bias [144] =
 {
 	-0.34278080,  0.05284210,  0.40323329,  0.00785783,  0.08440140,
            -0.18303722,  0.07989054, -0.06118371,  0.04052084, -0.16959442,

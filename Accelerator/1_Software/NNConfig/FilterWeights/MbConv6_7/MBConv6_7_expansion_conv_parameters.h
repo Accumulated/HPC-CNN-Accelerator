@@ -1,6 +1,6 @@
 
-// weight for Expansion Convolution layer has dimension of torch.Size([1, 1, 80, 480]) 
-extern float MBConv6_7_expansion_conv_conv2d_weights [ 1* 1 * 80 * 480] =  
+// weight for Expansion Convolution layer has dimension of torch.Size([1, 1, 80, 480])
+float MBConv6_7_expansion_conv_conv2d_weights [ 1* 1 * 80 * 480] =
 {
 	0.01253999,      0.27019227,     -0.00199381,      0.07104577,
                 0.06769900,      0.10156732,     -0.05300250,     -0.03933426,
@@ -9608,7 +9608,7 @@ extern float MBConv6_7_expansion_conv_conv2d_weights [ 1* 1 * 80 * 480] =
 // Weight shape = torch.Size([480])
 
 
-extern float MBConv6_7_expansion_conv_BN_weights [480] = 
+float MBConv6_7_expansion_conv_BN_weights [480] =
 {
 0.94134706,  0.42675087,  0.87496418,  0.23653963,  0.26194289,
          0.97431767,  1.01467979,  0.46650016,  1.50826204,  1.24445486,
@@ -9708,7 +9708,7 @@ extern float MBConv6_7_expansion_conv_BN_weights [480] =
          0.92050099,  0.81673253,  0.24887577,  0.28421530,  0.27445412
 };
 
-extern float MBConv6_7_expansion_conv_BN_bias [480] = 
+float MBConv6_7_expansion_conv_BN_bias [480] =
 {
 	 -0.03497757,  1.30435824,  0.55282289,  0.10275425, -0.00757345,
         -1.06639731, -0.74673736, -0.52085757, -1.14515197,  0.89434928,
@@ -9806,11 +9806,11 @@ extern float MBConv6_7_expansion_conv_BN_bias [480] =
         -0.51549220, -0.21748838,  0.90845007,  0.64540982,  0.21702781,
         -0.68001688,  0.08896931,  0.46770859, -0.63238245,  0.21566512,
          1.09989810, -0.41735426,  0.01001629, -0.17993015, -0.05451281
-		 
+
 };
 
 
-extern float MBConv6_7_expansion_conv_BN_mean [480] = 
+float MBConv6_7_expansion_conv_BN_mean [480] =
 {
 		  0.26384592,     -0.12637502,     -0.97899878,     -0.50584936,
             -0.18433580,      0.21785301,     -0.32608226,     -0.06879032,
@@ -9935,7 +9935,7 @@ extern float MBConv6_7_expansion_conv_BN_mean [480] =
 };
 
 
-extern float MBConv6_7_expansion_conv_BN_variance [480] = 
+float MBConv6_7_expansion_conv_BN_variance [480] =
 {
 29.94976425,    29.90706635,    37.49425888,    17.15885544,
            25.10610008,    33.69403458,    34.83039856,    29.88034439,
@@ -10058,14 +10058,3 @@ extern float MBConv6_7_expansion_conv_BN_variance [480] =
            22.11453629,    20.30604172,    15.20055103,    36.19052124,
            21.24815941,    29.57711792,    22.66944313,    14.82235050
 };
-
-
-
-
-
-
-
-
-
-
-

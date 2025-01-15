@@ -1,6 +1,6 @@
 
-// Weight for Project Conv layer has dimension of torch.Size([1, 1, 480, 80]) 
-extern float MBConv6_6_project_conv_conv2d_weights [1 * 1 * 480 * 80] =  
+// Weight for Project Conv layer has dimension of torch.Size([1, 1, 480, 80])
+float MBConv6_6_project_conv_conv2d_weights [1 * 1 * 480 * 80] =
 {
 0.06176560,     -0.06264146,     -0.10179799,     -0.00505062,
                 0.02688004,      0.01702588,     -0.09057392,     -0.01803023,
@@ -9606,7 +9606,7 @@ extern float MBConv6_6_project_conv_conv2d_weights [1 * 1 * 480 * 80] =
 
 
 // Parameters for BN in Project Conv layer Weight shape = torch.Size([80])
-extern float MBConv6_6_project_conv_BN_weights [80] =  
+float MBConv6_6_project_conv_BN_weights [80] =
 {
 1.55576777, 1.40937817, 3.71904278, 2.88200521, 1.11531556, 1.55811870,
         1.33985281, 1.20048308, 2.04010081, 2.75251436, 1.59933996, 1.11319840,
@@ -9624,7 +9624,7 @@ extern float MBConv6_6_project_conv_BN_weights [80] =
         1.40200412, 1.04884267
 };
 
-extern float MBConv6_6_project_conv_BN_bias[80] =  
+float MBConv6_6_project_conv_BN_bias[80] =
 {
 -0.17975859, -1.45492768,  0.16675822, -1.41008735, -0.76605117,
         -1.31784356, -0.21447738, -0.24780479, -0.09391961, -0.35427743,
@@ -9644,7 +9644,7 @@ extern float MBConv6_6_project_conv_BN_bias[80] =
         -0.95565933, -0.45615089,  0.19537954,  1.14772058, -0.22072095
 };
 
-extern float MBConv6_6_project_conv_BN_mean [80] =  
+float MBConv6_6_project_conv_BN_mean [80] =
 {
  0.13957337,      0.21520752,     -0.01824579,      0.12422399,
              0.09241444,      0.10306417,     -0.00023813,     -0.04776302,
@@ -9668,7 +9668,7 @@ extern float MBConv6_6_project_conv_BN_mean [80] =
             -0.08460235,     -0.28629613,      0.04339908,      0.02174406
 };
 
-extern float MBConv6_6_project_conv_BN_variance [80] =  
+float MBConv6_6_project_conv_BN_variance [80] =
 {
 0.14167045, 0.15687223, 0.23783377, 0.16252309, 0.15581889, 0.13481392,
         0.10051506, 0.18003419, 0.14111750, 0.17065696, 0.13773298, 0.14917807,
@@ -9685,6 +9685,3 @@ extern float MBConv6_6_project_conv_BN_variance [80] =
         0.26330313, 0.10799465, 0.10265195, 0.15345065, 0.18297064, 0.17609550,
         0.13205336, 0.19568589
 };
-
-
-

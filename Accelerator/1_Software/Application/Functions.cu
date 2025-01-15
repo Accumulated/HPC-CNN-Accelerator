@@ -400,7 +400,6 @@ void MBConv_Layer(Matrix* Input, Matrix* MBConvOut,
                 and BN with swish
     */
 
-    Matrix H_OUT;
     Matrix tmp1; Matrix *ptr_mat;
 
     if (MBCONV1_0_flag == 1)
@@ -801,7 +800,7 @@ void set_allocate_copy_Matrix_Device_specific(Matrix *child, Matrix *parent, cha
 	CheckCudaError(notification, err);
 }
 
-void just_copy_HTD(Matrix *child, Matrix *parent, char *notification)
+void just_copy_HTD(Matrix *child, Matrix *parent, const char *notification)
 {
     // Read C from device memory
   size_t size = parent -> width * parent -> height * parent -> depth * sizeof(float);

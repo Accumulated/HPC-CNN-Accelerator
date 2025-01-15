@@ -1,6 +1,6 @@
 
 // weight for Expansion Convolution layer has dimension of  torch.Size([1, 1, 240, 10])
-extern float MBConv6_5_squeeze_excitation1_conv2d_weights [1 * 1 * 240 * 10] =  
+float MBConv6_5_squeeze_excitation1_conv2d_weights [1 * 1 * 240 * 10] =
 {
 
 -0.05142154,      0.03820715,     -0.10619144,     -0.01352225,
@@ -606,7 +606,7 @@ extern float MBConv6_5_squeeze_excitation1_conv2d_weights [1 * 1 * 240 * 10] =
 };
 
 // weight for Squeeze Excitation2 layer  has dimension of  torch.Size([1, 1, 10, 240])
-extern float MBConv6_5_squeeze_excitation2_conv2d_weights [1 * 1 * 10 * 240] =  
+float MBConv6_5_squeeze_excitation2_conv2d_weights [1 * 1 * 10 * 240] =
 {
  -0.08062720,     -0.06786894,     -0.04974864,     -0.05590195,
                -0.02436585,      0.03372470,      0.06027164,     -0.03975970,
@@ -1212,7 +1212,7 @@ extern float MBConv6_5_squeeze_excitation2_conv2d_weights [1 * 1 * 10 * 240] =
 
 
 // Bias for Squeeze Excitation1 layer has dimension of torch.Size([10])
-extern float MBConv6_5_squeeze_excitation1_conv2d_bias [10] =  
+float MBConv6_5_squeeze_excitation1_conv2d_bias [10] =
 {
 -0.00274654, -0.00696279,  0.00482483,  0.00679519, -0.00271525,
            -0.00620034,  0.00313013,  0.00031302,  0.00391572,  0.00261150
@@ -1220,7 +1220,7 @@ extern float MBConv6_5_squeeze_excitation1_conv2d_bias [10] =
 
 
 // Bias for Squeeze Excitation2 layer has dimension of  torch.Size([240])
-extern float MBConv6_5_squeeze_excitation2_conv2d_bias [240] =  
+float MBConv6_5_squeeze_excitation2_conv2d_bias [240] =
 {
 0.25539732,     -0.10055462,     -0.11490632,      0.17183785,
                -0.20273769,     -0.04421258,      0.10958572,      0.00580096,
@@ -1281,5 +1281,5 @@ extern float MBConv6_5_squeeze_excitation2_conv2d_bias [240] =
                -0.12364167,     -0.17209992,      0.06456801,     -0.20514180,
                 0.12225385,      0.28334260,     -0.23588732,     -0.07642328,
                -0.15489797,      0.22803098,     -0.16496477,     -0.02716791,
-                0.09040680,     -0.02858295,      0.13388394,     -0.04368959	
+                0.09040680,     -0.02858295,      0.13388394,     -0.04368959
 };

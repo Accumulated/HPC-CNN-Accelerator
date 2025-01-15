@@ -1,6 +1,6 @@
 
 // weight for Expansion Convolution layer has dimension of  torch.Size([1, 1, 24, 144])
-extern float MBConv6_2_expansion_conv_conv2d_weights [ 1* 1 * 24 * 144] =  
+float MBConv6_2_expansion_conv_conv2d_weights [ 1* 1 * 24 * 144] =
 {
  	-0.31478804,     -0.01431804,      0.16332300,      0.29898575,
                -0.23642327,     -0.02241047,      0.14563371,      0.10401525,
@@ -872,7 +872,7 @@ extern float MBConv6_2_expansion_conv_conv2d_weights [ 1* 1 * 24 * 144] =
 // Weight shape = torch.Size([144])
 
 
-extern float MBConv6_2_expansion_conv_BN_weights [144] = 
+float MBConv6_2_expansion_conv_BN_weights [144] =
 {
 3.22082901,  2.66896009,  0.32637200,  0.68077630,  1.68987501,
          1.78740752, -2.17200685,  3.33720183,  0.15128276,  1.73110676,
@@ -905,7 +905,7 @@ extern float MBConv6_2_expansion_conv_BN_weights [144] =
          0.28612319,  1.93271625,  2.89034319,  1.47356296
 };
 
-extern float MBConv6_2_expansion_conv_BN_bias [144] = 
+float MBConv6_2_expansion_conv_BN_bias [144] =
 {
 	 0.48979345,  1.07333863, -0.70615989, -0.17177603,  2.69707012,
          0.65720314,  3.29240847, -3.03288412, -0.06148675, -1.19136608,
@@ -936,11 +936,11 @@ extern float MBConv6_2_expansion_conv_BN_bias [144] =
         -1.34108043, -1.07697678,  0.54261380,  1.79467404,  2.25591874,
         -0.24316263,  0.39081278,  0.33316305, -0.91584903,  2.16861701,
          0.20552953,  1.92819214, -2.69524264,  1.97029662
-		 
+
 };
 
 
-extern float MBConv6_2_expansion_conv_BN_mean [144] = 
+float MBConv6_2_expansion_conv_BN_mean [144] =
 {
 	-0.00203574,      0.00768769,     -0.00348196,      0.00655845,
              0.00122936,     -0.00574111,     -0.00026985,     -0.00123112,
@@ -977,11 +977,11 @@ extern float MBConv6_2_expansion_conv_BN_mean [144] =
              0.00440861,      0.00231270,      0.00893499,      0.00056794,
             -0.00024637,      0.00640987,     -0.00570066,     -0.00530424,
              0.00017009,      0.00158895,      0.00537387,      0.00832206,
-             0.01161728,     -0.00554504,      0.00467105,      0.00016169	 
+             0.01161728,     -0.00554504,      0.00467105,      0.00016169
 };
 
 
-extern float MBConv6_2_expansion_conv_BN_variance [144] = 
+float MBConv6_2_expansion_conv_BN_variance [144] =
 {
 77.14632416, 108.48574066, 139.91807556, 117.01519775,  36.73364258,
          42.18039703,  92.68932343, 111.85430145,  37.69113541,  94.66668701,
@@ -1013,14 +1013,3 @@ extern float MBConv6_2_expansion_conv_BN_variance [144] =
          52.34993362,  67.97780609,  23.32288551,  85.86009216,  27.32675362,
          46.42944717,  20.71590996, 124.82701874,  44.23667145
 };
-
-
-
-
-
-
-
-
-
-
-

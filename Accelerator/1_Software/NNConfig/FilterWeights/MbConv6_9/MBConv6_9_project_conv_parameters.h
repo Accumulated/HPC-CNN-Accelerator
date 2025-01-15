@@ -1,6 +1,6 @@
 
 // Weight for Project Conv layer has dimension of  torch.Size([1, 1, 672, 112])
-extern float MBConv6_9_project_conv_conv2d_weights [1 * 1 * 672 * 112] =  
+float MBConv6_9_project_conv_conv2d_weights [1 * 1 * 672 * 112] =
 {
 -0.05046372,     -0.02076161,      0.12419958,      0.02082140,
                 0.02565669,     -0.02284692,      0.09183866,     -0.01680601,
@@ -18822,7 +18822,7 @@ extern float MBConv6_9_project_conv_conv2d_weights [1 * 1 * 672 * 112] =
 
 
 // Parameters for BN in Project Conv layer Weight shape = torch.Size([112])
-extern float MBConv6_9_project_conv_BN_weights [112] =  
+float MBConv6_9_project_conv_BN_weights [112] =
 {
 1.18776596, 1.76711822, 1.35195720, 2.54757524, 1.77615154, 1.66283798,
         1.17605245, 1.65029013, 1.50559926, 0.78665048, 1.82370436, 2.56087017,
@@ -18845,7 +18845,7 @@ extern float MBConv6_9_project_conv_BN_weights [112] =
         1.50396991, 1.12483704, 2.11167836, 2.21764612
 };
 
-extern float MBConv6_9_project_conv_BN_bias[112] =  
+float MBConv6_9_project_conv_BN_bias[112] =
 {
 0.52771288,  0.22483781, -0.87269974,  0.30400214,  0.12751877,
         -0.18475062,  0.19413753,  0.19657379, -0.44172683, -0.25078478,
@@ -18872,7 +18872,7 @@ extern float MBConv6_9_project_conv_BN_bias[112] =
          0.15572502,  0.38090703
 };
 
-extern float MBConv6_9_project_conv_BN_mean [112] =  
+float MBConv6_9_project_conv_BN_mean [112] =
 {
 0.09075900, -0.10103235, -0.04689100, -0.10892420, -0.10201342,
         -0.08944108, -0.09723745,  0.05447863, -0.32264861,  0.11090474,
@@ -18899,7 +18899,7 @@ extern float MBConv6_9_project_conv_BN_mean [112] =
          0.06416119,  0.03779248
 };
 
-extern float MBConv6_9_project_conv_BN_variance [112] =  
+float MBConv6_9_project_conv_BN_variance [112] =
 {
 0.20168822, 0.24998860, 0.23297192, 0.34243134, 0.25693089, 0.30051127,
         0.22493020, 0.21558020, 0.24022697, 0.20699291, 0.25363982, 0.35710013,
@@ -18921,6 +18921,3 @@ extern float MBConv6_9_project_conv_BN_variance [112] =
         0.20543163, 0.28182349, 0.26540676, 0.25609475, 0.19668870, 0.27854142,
         0.21889372, 0.21571219, 0.27789271, 0.30872267
 };
-
-
-

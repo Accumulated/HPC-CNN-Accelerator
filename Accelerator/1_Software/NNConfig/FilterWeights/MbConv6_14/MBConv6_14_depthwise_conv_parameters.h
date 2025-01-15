@@ -1,6 +1,6 @@
 
 // weight for Depthwise layer has dimension of torch.Size( 1152, 1, 5, 5 )
-extern float MBConv6_14_depthwise_conv_conv2d_weights  [1152 * 1 * 5 * 5]  =  
+float MBConv6_14_depthwise_conv_conv2d_weights  [1152 * 1 * 5 * 5]  =
 {
 -0.01510502,      0.02268131,      0.11608317,      0.04564650,
                -0.05346153 ,
@@ -13826,10 +13826,10 @@ extern float MBConv6_14_depthwise_conv_conv2d_weights  [1152 * 1 * 5 * 5]  =
                -0.01191675
 };
 
-// Parameters for BN in Depthwise layer 
+// Parameters for BN in Depthwise layer
 // Weight shape =  torch.Size([1152])
 
-extern float MBConv6_14_depthwise_conv_BN_weights  [1152]  = 
+float MBConv6_14_depthwise_conv_BN_weights  [1152]  =
 {
 1.21704292, 1.21927786, 1.48932934, 0.87703210, 1.16694176, 1.39772522,
         1.05660284, 1.33055294, 1.27892983, 1.65089977, 1.36645305, 1.53136301,
@@ -14025,7 +14025,7 @@ extern float MBConv6_14_depthwise_conv_BN_weights  [1152]  =
         1.66557777, 1.80034518, 1.65234923, 1.48186338, 1.78093672, 1.98524940
 };
 
-extern float MBConv6_14_depthwise_conv_BN_bias  [1152]  = 
+float MBConv6_14_depthwise_conv_BN_bias  [1152]  =
 {
 		 -0.38061795,     -0.61192220,     -1.36744261,     -0.50796390,
             -1.05411577,     -0.01835736,     -0.30837351,     -1.71861959,
@@ -14318,7 +14318,7 @@ extern float MBConv6_14_depthwise_conv_BN_bias  [1152]  =
 };
 
 
-extern float MBConv6_14_depthwise_conv_BN_mean  [1152]  = 
+float MBConv6_14_depthwise_conv_BN_mean  [1152]  =
 {
 		-0.10837280,     -0.09115086,     -0.10685747,     -0.02013732,
              0.13471650,     -0.11826926,     -0.02689924,     -0.04491273,
@@ -14611,7 +14611,7 @@ extern float MBConv6_14_depthwise_conv_BN_mean  [1152]  =
 };
 
 
-extern float MBConv6_14_depthwise_conv_BN_variance  [1152]  = 
+float MBConv6_14_depthwise_conv_BN_variance  [1152]  =
 {
  0.01000566,     0.01178960,     0.01670175,     0.02212380,
             0.09755898,     0.00337866,     0.01794851,     0.04319508,
@@ -14902,5 +14902,3 @@ extern float MBConv6_14_depthwise_conv_BN_variance  [1152]  =
             0.01964292,     0.01168224,     0.05536315,     0.00852391,
             0.03359815,     0.00537612,     0.00520622,     0.13124539
 };
-
-

@@ -1,6 +1,6 @@
 
 // Weight for Project Conv layer has dimension of  torch.Size([1, 1, 144, 40])
-extern float MBConv6_3_project_conv_conv2d_weights [1 * 1 * 144 * 40] =  
+float MBConv6_3_project_conv_conv2d_weights [1 * 1 * 144 * 40] =
 {
 0.14723723,      0.02955991,     -0.12649567,     -0.11231286,
                 0.46255147,      0.07517589,     -0.23317544,     -0.06717722,
@@ -1446,7 +1446,7 @@ extern float MBConv6_3_project_conv_conv2d_weights [1 * 1 * 144 * 40] =
 
 
 // Parameters for BN in Project Conv layer Weight shape = torch.Size([40])
-extern float MBConv6_3_project_conv_BN_weights [40] =  
+float MBConv6_3_project_conv_BN_weights [40] =
 {
 4.99972486, 6.59769344, 5.50645256, 5.55477858, 4.93434620, 5.33452368,
         5.05842876, 5.34565258, 5.42305803, 5.93091297, 6.68258381, 5.58160305,
@@ -1457,7 +1457,7 @@ extern float MBConv6_3_project_conv_BN_weights [40] =
         5.37162352, 5.93703890, 8.40150261, 7.16013670
 };
 
-extern float MBConv6_3_project_conv_BN_bias[40] =  
+float MBConv6_3_project_conv_BN_bias[40] =
 {
 -0.00189966,  0.00139600,  0.00077265, -0.00094205, -0.00132379,
          0.00350982, -0.00034531,  0.00398929,  0.00154640,  0.00144785,
@@ -1469,7 +1469,7 @@ extern float MBConv6_3_project_conv_BN_bias[40] =
         -0.00156361,  0.00544290,  0.00153764, -0.00108534, -0.00453631
 };
 
-extern float MBConv6_3_project_conv_BN_mean [40] =  
+float MBConv6_3_project_conv_BN_mean [40] =
 {
 -0.90015364,  -4.29817629,  -1.45839942,  -1.16503537,  -9.96478271,
          -2.42852283,  -1.23673236,  -0.66026014,  -4.41495275,   4.85084963,
@@ -1481,7 +1481,7 @@ extern float MBConv6_3_project_conv_BN_mean [40] =
          -0.59656423,   3.88300967,   2.12080574,  -4.67269754,   1.90841269
 };
 
-extern float MBConv6_3_project_conv_BN_variance [40] =  
+float MBConv6_3_project_conv_BN_variance [40] =
 {
 2.51302886,  6.14856958,  1.94680333,  2.48767924,  1.98735809,
          2.10582542,  1.71181023,  2.70412350,  2.29425597,  4.04003477,
@@ -1492,6 +1492,3 @@ extern float MBConv6_3_project_conv_BN_variance [40] =
          3.17792654,  7.05996656, 27.18582726, 16.34635735,  3.53537107,
          2.15682554,  2.72729564,  4.04193544, 20.89074135,  9.89325142
 };
-
-
-

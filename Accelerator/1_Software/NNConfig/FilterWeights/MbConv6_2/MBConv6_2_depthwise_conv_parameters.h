@@ -1,6 +1,6 @@
 
 // weight for Depthwise layer has dimension of torch.Size( 144, 1, 3, 3 )
-extern float MBConv6_2_depthwise_conv_conv2d_weights  [144 * 1 * 3 * 3]  =  
+float MBConv6_2_depthwise_conv_conv2d_weights  [144 * 1 * 3 * 3]  =
 {
   0.11764459,      0.57911843,     -0.02154263 ,
                 0.01709986,      0.28827098,     -0.04088267 ,
@@ -722,10 +722,10 @@ extern float MBConv6_2_depthwise_conv_conv2d_weights  [144 * 1 * 3 * 3]  =
                -0.18784574,      0.22477081,      0.06683693
 };
 
-// Parameters for BN in Depthwise layer 
+// Parameters for BN in Depthwise layer
 // Weight shape = torch.Size([144] )
 
-extern float MBConv6_2_depthwise_conv_BN_weights  [144]  = 
+float MBConv6_2_depthwise_conv_BN_weights  [144]  =
 {
   1.33306909, 1.51721299, 1.24640405, 1.50387633, 1.56921816, 1.92592955,
         2.83529544, 1.85804677, 2.23310018, 1.35777080, 0.95855379, 1.33532071,
@@ -753,7 +753,7 @@ extern float MBConv6_2_depthwise_conv_BN_weights  [144]  =
         2.14523244, 2.44471288, 0.92960858, 1.62053037, 1.97556603, 1.61466169
 };
 
-extern float MBConv6_2_depthwise_conv_BN_bias  [144]  = 
+float MBConv6_2_depthwise_conv_BN_bias  [144]  =
 {
 	1.13441098, -0.20247751,  0.83335251,  0.37540030, -0.79244608,
          0.44608846, -1.42361808, -1.32157600, -0.47302032,  0.68788856,
@@ -783,11 +783,11 @@ extern float MBConv6_2_depthwise_conv_BN_bias  [144]  =
         -0.74185574,  0.18350147, -0.61481035, -2.14848351, -1.01625192,
          0.43290615,  0.95208549, -0.64488524,  1.10231531, -0.59955126,
         -0.11719655, -0.56043029, -0.18722370, -1.98556411, -0.63019830,
-         0.76979589, -0.52949238, -1.27614820, -1.35527873	 
+         0.76979589, -0.52949238, -1.27614820, -1.35527873
 };
 
 
-extern float MBConv6_2_depthwise_conv_BN_mean  [144]  = 
+float MBConv6_2_depthwise_conv_BN_mean  [144]  =
 {
 		0.45854670,      1.29233718,     -0.24809843,     -0.00627352,
             -0.01755381,      0.24284475,     -0.42811900,      0.00171963,
@@ -828,7 +828,7 @@ extern float MBConv6_2_depthwise_conv_BN_mean  [144]  =
 };
 
 
-extern float MBConv6_2_depthwise_conv_BN_variance  [144]  = 
+float MBConv6_2_depthwise_conv_BN_variance  [144]  =
 {
     1.74811769,     0.98485905,     0.00843281,     0.01980086,
             0.98053098,     0.36505169,     1.30647755,     0.01395265,
@@ -867,5 +867,3 @@ extern float MBConv6_2_depthwise_conv_BN_variance  [144]  =
             0.01826370,     0.02798687,     0.03648145,     0.75776684,
             0.01121688,     0.93873990,     0.01492669,     1.05680585
 };
-
-

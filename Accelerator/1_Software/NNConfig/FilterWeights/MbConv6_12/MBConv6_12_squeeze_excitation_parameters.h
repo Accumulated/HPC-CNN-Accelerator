@@ -1,6 +1,6 @@
 
 // weight for Expansion Convolution layer has dimension of  torch.Size([1, 1, 1152, 48])
-extern float MBConv6_12_squeeze_excitation1_conv2d_weights [1 * 1 * 1152 * 48] =  
+float MBConv6_12_squeeze_excitation1_conv2d_weights [1 * 1 * 1152 * 48] =
 {
 -0.08696181,      0.02325858,      0.06926319,      0.07410119,
                -0.08080890,     -0.02344910,     -0.03150168,      0.01756008,
@@ -13829,8 +13829,8 @@ extern float MBConv6_12_squeeze_excitation1_conv2d_weights [1 * 1 * 1152 * 48] =
 
 };
 
-// weight for Squeeze Excitation2 layer  has dimension of torch.Size([1, 1, 48, 1152]) 
-extern float MBConv6_12_squeeze_excitation2_conv2d_weights [1 * 1 * 48 *1152] =  
+// weight for Squeeze Excitation2 layer  has dimension of torch.Size([1, 1, 48, 1152])
+float MBConv6_12_squeeze_excitation2_conv2d_weights [1 * 1 * 48 *1152] =
 {
 -0.02324197,      0.15409538,     -0.16017695,     -0.10983136,
                -0.09456018,     -0.00540780,     -0.15201125,      0.05433215,
@@ -27659,8 +27659,8 @@ extern float MBConv6_12_squeeze_excitation2_conv2d_weights [1 * 1 * 48 *1152] =
 };
 
 
-// Bias for Squeeze Excitation1 layer has dimension of torch.Size([48]) 
-extern float MBConv6_12_squeeze_excitation1_conv2d_bias [48] =  
+// Bias for Squeeze Excitation1 layer has dimension of torch.Size([48])
+float MBConv6_12_squeeze_excitation1_conv2d_bias [48] =
 {
 0.09978817,  0.03184480,  0.01937637,  0.09477133, -0.01240666,
             0.04706634,  0.09956071,  0.03496899,  0.01860284,  0.01766418,
@@ -27676,7 +27676,7 @@ extern float MBConv6_12_squeeze_excitation1_conv2d_bias [48] =
 
 
 // Bias for Squeeze Excitation2 layer has dimension of  torch.Size([1152])
-extern float MBConv6_12_squeeze_excitation2_conv2d_bias [1152] =  
+float MBConv6_12_squeeze_excitation2_conv2d_bias [1152] =
 {
 0.01145159,     -0.02336235,     -0.00416183,     -0.02029242,
                -0.01185732,     -0.01162868,      0.04100087,     -0.02077343,
@@ -27965,5 +27965,5 @@ extern float MBConv6_12_squeeze_excitation2_conv2d_bias [1152] =
                 0.03914874,     -0.01355258,     -0.04877689,     -0.03438467,
                -0.04246472,     -0.01334673,      0.00782872,     -0.04331168,
                -0.01437165,     -0.01296782,      0.00408093,     -0.02504745,
-               -0.03268528,     -0.01447604,     -0.01777140,      0.02112166	
+               -0.03268528,     -0.01447604,     -0.01777140,      0.02112166
 };

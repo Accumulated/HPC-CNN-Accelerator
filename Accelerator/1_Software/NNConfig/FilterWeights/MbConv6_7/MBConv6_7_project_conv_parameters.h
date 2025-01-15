@@ -1,6 +1,6 @@
 
 // Weight for Project Conv layer has dimension of  torch.Size([1, 1, 480, 80])
-extern float MBConv6_7_project_conv_conv2d_weights [1 * 1 * 480 * 80] =  
+float MBConv6_7_project_conv_conv2d_weights [1 * 1 * 480 * 80] =
 {
 -0.04781823,     -0.15345967,      0.07838665,     -0.00740334,
                 0.05394233,      0.06687169,      0.05715877,     -0.05337993,
@@ -9606,7 +9606,7 @@ extern float MBConv6_7_project_conv_conv2d_weights [1 * 1 * 480 * 80] =
 
 
 // Parameters for BN in Project Conv layer Weight shape = torch.Size([80])
-extern float MBConv6_7_project_conv_BN_weights [80] =  
+float MBConv6_7_project_conv_BN_weights [80] =
 {
 1.19992769, 1.20112658, 3.61992121, 2.71597004, 0.95053315, 1.28694594,
         1.20045805, 1.10364163, 1.88182616, 2.26538229, 1.30352390, 1.10470557,
@@ -9624,7 +9624,7 @@ extern float MBConv6_7_project_conv_BN_weights [80] =
         1.22798121, 1.04483581
 };
 
-extern float MBConv6_7_project_conv_BN_bias[80] =  
+float MBConv6_7_project_conv_BN_bias[80] =
 {
 -0.36299369, -1.19000590,  0.20476344, -1.64759862, -0.48900357,
         -1.36991477, -0.12635162, -0.25563285,  0.02196334, -0.15515649,
@@ -9644,7 +9644,7 @@ extern float MBConv6_7_project_conv_BN_bias[80] =
         -0.88893849, -0.05394348,  0.28455043,  1.09123385, -0.19501114
 };
 
-extern float MBConv6_7_project_conv_BN_mean [80] =  
+float MBConv6_7_project_conv_BN_mean [80] =
 {
 -0.09753785, -0.20112808,  0.17701419,  0.14710167, -0.15882695,
         -0.09638061,  0.11675122,  0.08523296, -0.28052804,  0.24633700,
@@ -9664,7 +9664,7 @@ extern float MBConv6_7_project_conv_BN_mean [80] =
         -0.12517524, -0.17210165,  0.19491330, -0.00562383, -0.28280583
 };
 
-extern float MBConv6_7_project_conv_BN_variance [80] =  
+float MBConv6_7_project_conv_BN_variance [80] =
 {
 0.11896315, 0.14076537, 0.26822409, 0.17764269, 0.14090091, 0.11927547,
         0.10018301, 0.17753847, 0.14039691, 0.14085178, 0.12115023, 0.17426063,
@@ -9681,6 +9681,3 @@ extern float MBConv6_7_project_conv_BN_variance [80] =
         0.23708904, 0.11254734, 0.10482908, 0.14276913, 0.16750658, 0.17157419,
         0.12787068, 0.20153084
 };
-
-
-

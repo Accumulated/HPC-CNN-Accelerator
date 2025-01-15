@@ -1,6 +1,6 @@
 
-// Weight for Project Conv layer has dimension of  torch.Size([1, 1, 16, 32])  
-extern float MBConv1_0_project_conv_conv2d_weights [1 * 1 * 16 * 32] =  
+// Weight for Project Conv layer has dimension of  torch.Size([1, 1, 16, 32])
+float MBConv1_0_project_conv_conv2d_weights [1 * 1 * 16 * 32] =
 {
 	0.01715154,      0.12068915,      0.10851547,      0.57103354,
 	0.24510810,     -0.09494174,     -1.03315556,      0.50473893,
@@ -134,14 +134,14 @@ extern float MBConv1_0_project_conv_conv2d_weights [1 * 1 * 16 * 32] =
 
 
 // Parameters for BN in Project Conv layer Weight shape =  torch.Size([16])
-extern float MBConv1_0_project_conv_BN_weights [16] =  
+float MBConv1_0_project_conv_BN_weights [16] =
 {
 	5.56536436, 6.41136456, 6.20776558, 5.21682167, 5.14990473, 6.27915144,
 	5.57469749, 5.65815687, 7.75624514, 6.66946125, 5.53823328, 6.26459742,
 	4.43533278, 7.12915134, 6.45152617, 5.57683802
 };
 
-extern float MBConv1_0_project_conv_BN_bias[16] =  
+float MBConv1_0_project_conv_BN_bias[16] =
 {
 	0.00462267, -0.00115919, -0.00036915,  0.00589598, -0.00880162,
 	0.00252980,  0.00402172,  0.00403006, -0.00971426, -0.00105763,
@@ -149,7 +149,7 @@ extern float MBConv1_0_project_conv_BN_bias[16] =
 	-0.00325059
 };
 
-extern float MBConv1_0_project_conv_BN_mean [16] =  
+float MBConv1_0_project_conv_BN_mean [16] =
 {
 	-1.55508566,  1.15244627, -1.48390353, -0.63220519,  1.84969187,
 	-0.73967427,  1.34384394,  4.90068054, 10.70640087, 11.61470699,
@@ -157,13 +157,10 @@ extern float MBConv1_0_project_conv_BN_mean [16] =
 	4.20420742
 };
 
-extern float MBConv1_0_project_conv_BN_variance [16] =  
+float MBConv1_0_project_conv_BN_variance [16] =
 {
 	2.59896493,  2.33948255,  2.82772040,  4.73285866,  1.84109616,
 	2.20084119,  1.55678701,  2.19441819, 17.13715172,  8.67965984,
 	6.13355303,  2.02052426,  2.30519247, 13.10214996,  2.90636778,
 	2.95968604
 };
-
-
-

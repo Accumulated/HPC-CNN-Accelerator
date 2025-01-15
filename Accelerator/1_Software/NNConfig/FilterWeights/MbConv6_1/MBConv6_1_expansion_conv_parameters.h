@@ -1,6 +1,6 @@
 
 // weight for Expansion Convolution layer has dimension of  torch.Size([1, 1, 96, 16])
-extern float MBConv6_1_expansion_conv_conv2d_weights [1 * 1 * 16 * 96] =  
+float MBConv6_1_expansion_conv_conv2d_weights [1 * 1 * 16 * 96] =
 {
 	-0.04681228,     -0.04194699,      0.06801797,     -0.36168611,
 	-0.07783087,      0.13122274,     -0.20759262,     -0.16457674,
@@ -393,7 +393,7 @@ extern float MBConv6_1_expansion_conv_conv2d_weights [1 * 1 * 16 * 96] =
 // Weight shape =  torch.Size([96])
 
 
-float MBConv6_1_expansion_conv_BN_weights [96] = 
+float MBConv6_1_expansion_conv_BN_weights [96] =
 {
 	1.48427939,  5.45921326,  0.68809891,  4.46504450,  1.90564775,
 	10.74465466,  0.51769245,  2.49091959,  4.77271461,  1.04871321,
@@ -417,7 +417,7 @@ float MBConv6_1_expansion_conv_BN_weights [96] =
 	0.98378193
 };
 
-float MBConv6_1_expansion_conv_BN_bias [96] = 
+float MBConv6_1_expansion_conv_BN_bias [96] =
 {
 
 	-0.20293140,  2.65908790,  2.95143175, -0.54874307,  2.62180638,
@@ -439,12 +439,12 @@ float MBConv6_1_expansion_conv_BN_bias [96] =
 	2.72632790,  1.92678237, -0.52345389, -0.47457290,  2.75397658,
 	8.52413368,  2.11408806,  0.14201549,  0.07417167,  2.40271592,
 	1.80743241,  2.09195852, -1.61693084,  2.65958476,  1.77061939,
-	3.45676470		 
-		 
+	3.45676470
+
 };
 
 
-float MBConv6_1_expansion_conv_BN_mean [96] = 
+float MBConv6_1_expansion_conv_BN_mean [96] =
 {
 	0.00085942,      0.00061372,     -0.00766707,      0.00613810,
 	0.00851062,      0.03012798,     -0.00738549,      0.00244964,
@@ -469,11 +469,11 @@ float MBConv6_1_expansion_conv_BN_mean [96] =
 	0.00318516,      0.00450662,     -0.00600394,     -0.00047564,
 	-0.00533085,     -0.00116700,     -0.00031260,      0.00341189,
 	-0.00228423,      0.00980248,      0.00082873,      0.00045297,
-	0.00200102,      0.00114964,     -0.00435250,      0.00377458			 
+	0.00200102,      0.00114964,     -0.00435250,      0.00377458
 };
 
 
-float MBConv6_1_expansion_conv_BN_variance [96] = 
+float MBConv6_1_expansion_conv_BN_variance [96] =
 {
 
 	43.19070435,  38.94707108,  74.48043060,  93.81486511,  55.72869492,
@@ -497,14 +497,3 @@ float MBConv6_1_expansion_conv_BN_variance [96] =
 	18.16284180,  25.87956619,  27.88718033,  35.17727280,  41.34504318,
 	98.73000336
 };
-
-
-
-
-
-
-
-
-
-
-

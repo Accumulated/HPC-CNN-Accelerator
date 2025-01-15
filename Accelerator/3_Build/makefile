@@ -58,7 +58,7 @@ UT_SRC = $(shell find $(UNIT_TEST_DIR) \( -name '*.cpp' -o -name '*.cu' \))
 
 
 # Start the build by invoking the Project exec rule.
-build: $(ProjectName)
+build: CreateBuildDirs $(ProjectName)
 	@echo "5. Build Done"
 
 
@@ -68,7 +68,7 @@ UnitTest: Announce_UT_START TestRule
 	@$(shell rm -rf $(OBJ_DIR_TMP))
 
 
-# Duplicate main - one from applicatoin and the other is from Unittest.
+# Duplicate main - one from application and the other is from Unittest.
 # Temporary solution is to copy application's main into a tmp directory
 # and then get it back from the tmp directory.
 Announce_UT_START:
@@ -109,7 +109,6 @@ $(ProjectName)UT: UT_SRC_RULE
 SRC_RULE: $(foreach SRC_FILE, $(SRC), $(SRC_FILE:.cpp=.o) $(SRC_FILE:.cu=.o))
 	@echo "2. Source compilation rule - Finished"
 
-
 # UnitTest Source files rule:
 UT_SRC_RULE: $(foreach SRC_FILE, $(UT_SRC), $(SRC_FILE:.cpp=.o))
 	@echo "1. Source compilation rule - Finished"
@@ -119,7 +118,6 @@ PreProcess_UT: $(foreach SRC_FILE, $(UT_SRC), $(SRC_FILE:.cpp=.i))
 
 PreProcess: $(foreach SRC_FILE, $(SRC), $(SRC_FILE:.cpp=.i))
 	@echo "Source Preprocessing only - Finished"
-
 
 # Rule to compile a cpp source file to an object file
 %.o: %.cpp
@@ -142,8 +140,13 @@ PreProcess: $(foreach SRC_FILE, $(SRC), $(SRC_FILE:.cpp=.i))
 # make these directories again by mkdir command and direct the result
 # of this operation to null (Both stdout and stderror to be redirected
 # to null. (Design choise)
-.PHONY: clean_all
-clean:
-	@$(shell rm -rf $(OBJ_DIR)/* $(EXEC_DIR)/* $(PRE_PROCESS_DIR)/* $(OBJ_DIR_TMP)/*)
-	@$(shell mkdir $(EXEC_DIR) $(OBJ_DIR) $(PRE_PROCESS_DIR) > /dev/null 2>&1)
+clean clean_all: RemoveBuildDirs CreateBuildDirs
 	@echo "All exe and obj files are deleted"
+
+.PHONY: CreateBuildDirs
+CreateBuildDirs:
+	@$(shell mkdir $(EXEC_DIR) $(OBJ_DIR) $(PRE_PROCESS_DIR) > /dev/null 2>&1)
+
+.PHONY: RemoveBuildDirs
+RemoveBuildDirs:
+	@$(shell rm -rf $(OBJ_DIR)/* $(EXEC_DIR)/* $(PRE_PROCESS_DIR)/* $(OBJ_DIR_TMP)/*)

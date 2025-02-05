@@ -258,23 +258,36 @@ __global__ void Identity_Skip(float *A,  int H1, int W1, int D1,
     }
 }
 
-__global__ void Complete_Padding_Process(float *Original_Padded, int H1, int W1, int D1,
-                                         float *Original,        int H2, int W2, int D2,
-                                         int padding_value)
-{
-    // There must be a constant shift between indeces in 2 matrices
+__global__ void Complete_Padding_Process(float *output, int outputHeight, int outputWidth, int outputDepth,
+                                         float *input, int inputHeight, int inputWidth, int inputDepth,
+                                         int paddingValue) {
+
+    // Calculate the row and column indices for the output matrix
     int row = blockIdx.y * blockDim.y + threadIdx.y;
     int col = blockIdx.x * blockDim.x + threadIdx.x;
     int depth = blockIdx.z * blockDim.z + threadIdx.z;
 
-    int index = depth * W2 * H2 + row * W2 + col;
-    int Padding_Index = depth * W1 * H1 + (row + padding_value) * W1 + (col + padding_value);
+    // Check if the current thread is within the bounds of the output matrix
+    if (row < outputHeight && col < outputWidth && depth < outputDepth) {
+        // Determine the corresponding position in the input matrix
+        int inputRow = row - paddingValue;
+        int inputCol = col - paddingValue;
 
-    if ((row < (H2)) && (col < (W2)) && (depth < (D2)))
-    {
-        Original_Padded[Padding_Index] = Original[index];
+        // Check if the current position is within the bounds of the input matrix
+        if (inputRow >= 0 && inputRow < inputHeight &&
+            inputCol >= 0 && inputCol < inputWidth) {
+
+            // Copy the value from the input matrix to the output matrix
+            output[depth * outputWidth * outputHeight + row * outputWidth + col] =
+                  input[depth * inputWidth * inputHeight + inputRow * inputWidth + inputCol];
+
+        } else {
+            // Set the padding value (e.g., zero) for out-of-bounds positions
+            output[depth * outputWidth * outputHeight + row * outputWidth + col] = 0.0f;
+        }
     }
 }
+
 
 /* Batch Normalization Kernels */
 const int BLOCK_SIZE = 128;

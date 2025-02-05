@@ -1163,8 +1163,8 @@ void HEAD_LAYER(Matrix *INPUT_MATRIX, Matrix *F_HEAD, Matrix *FC_WEIGHTS,
     tmp_out_host.elements[i] += Head_linear_bias[i];
   }
 
-  just_copy_HTD(&Out1, &tmp_out_host, "Copying to add bias");
-  show_me_enhanced_from_devince(&Out1, "Model final output::");
+  // just_copy_HTD(&Out1, &tmp_out_host, "Copying to add bias");
+  // show_me_enhanced_from_devince(&Out1, "Model final output::");
 }
 
 // The first layer in efficient net:

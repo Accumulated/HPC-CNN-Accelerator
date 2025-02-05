@@ -555,10 +555,6 @@ void Padding_Zeros_Function(Matrix* Original_Matrix_Before, int padding_Value, M
                       padded_Matrix,
                       "Padded Matrix is allocated in device memory.");
 
-    // 1st: Set padded Matrix with all zeros
-    cudaMemset(padded_Matrix -> elements,
-               0, padded_Matrix->height * padded_Matrix->width * padded_Matrix->depth * sizeof(float));
-
     int nbx = (int)ceil((float)padded_Matrix -> width / DYNAMIC_TILE);
     int nby = (int)ceil((float)padded_Matrix -> height / DYNAMIC_TILE);
     int nbz = padded_Matrix -> depth;
@@ -571,7 +567,6 @@ void Padding_Zeros_Function(Matrix* Original_Matrix_Before, int padding_Value, M
     dim3 dim_Block2(DYNAMIC_TILE, DYNAMIC_TILE, 1);
 
     // Pass to the copying strided kernel to complete the padding process
-
     Complete_Padding_Process <<< dim_Grid2, dim_Block2 >>> (padded_Matrix -> elements,
                                                             padded_Matrix -> height,
                                                             padded_Matrix -> width,

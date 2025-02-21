@@ -1,6 +1,9 @@
 #ifndef functions_H_
 #define functions_H_
 
+#include "CommonInclude.h"
+
+
 const int Tile_GEMM = 16;
 const int TileDW = 16;
 const int DYNAMIC_TILE = 16;
@@ -15,13 +18,7 @@ const int Conv2d_1_x_1 = 1;
 const int DWConv_k_x_k = 2;
 const int Regular_Conv = 3;
 
-typedef struct {
-    int width;
-    int height;
-    int depth;
-    float* elements;
-}
-Matrix;
+
 
 void show_me_enhanced(Matrix* ptr, const char* NamePtr);
 

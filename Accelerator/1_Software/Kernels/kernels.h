@@ -1,6 +1,7 @@
 #ifndef KERNELS_H_
 #define KERNELS_H_
 
+
 #define THREAD_GRANULARITY_BLOCKS	2
 
 extern const int BLOCK_SIZE;

@@ -12,16 +12,7 @@
 #include "Functions.h"
 #include "kernels.h"
 
-static void HandleError( cudaError_t err,
-                         char *file,
-                         int line ) {
-    if (err != cudaSuccess) {
-        printf( "%s in %s at line %d\n", cudaGetErrorString( err ),
-                file, line );
-        exit( EXIT_FAILURE );
-    }
-}
-#define HANDLE_ERROR( err ) (HandleError( err, __FILE__, __LINE__ ))
+
 
 float time_defined = 0, tmp_time = 0, total_time_for_layer = 0;;
 cudaEvent_t start_timing, stop_timing;
@@ -225,16 +216,16 @@ void Squeeze_and_Excite(Matrix* InputIMG, Matrix* Result,
     Set_HostMatrix(1, 1, InputIMG -> depth, &Result_Mean);
 
     Conv2d_Layer(&Result_Mean, Filter1, &tmp1, 1, 0, input_channels, output_channels, FilterDensity1,
-                 Conv2d_1_x_1, SWISH_ACTIVATION,
+                 CONV_1x1, SWISH_ACTIVATION,
                  BIASED, First_bias);
 
     Conv2d_Layer(&tmp1, Filter2, &tmp2, 1, 0, output_channels, input_channels, FilterDensity2,
-                 Conv2d_1_x_1, SIGMOID_ACTIVATION,
+                 CONV_1x1, SIGMOID_ACTIVATION,
                  BIASED, Second_bias);
 
 
-    int nbx = (int)ceil((float)InputIMG -> width / DYNAMIC_TILE);
-    int nby = (int)ceil((float)InputIMG -> height / DYNAMIC_TILE);
+    int nbx = (int)ceil((float)InputIMG -> width / Tile_GEMM);
+    int nby = (int)ceil((float)InputIMG -> height / Tile_GEMM);
     int nbz = InputIMG -> depth;
 
     if (nbx == 0) nbx = 1;
@@ -244,7 +235,7 @@ void Squeeze_and_Excite(Matrix* InputIMG, Matrix* Result,
     // This is the only kernel that runs 3d Grid;
     // Each block in z dimension controls 1 channel
     dim3 dim_Grid2(nbx, nby, nbz);
-    dim3 dim_Block2(DYNAMIC_TILE, DYNAMIC_TILE, 1);
+    dim3 dim_Block2(Tile_GEMM, Tile_GEMM, 1);
 
     // C then D, the final multiplication is in C matrix
     ConvChannelElementWiseMultiplication <<< dim_Grid2, dim_Block2 >>> (InputIMG -> elements,
@@ -271,7 +262,7 @@ void Conv2d_Layer(Matrix* InputIMG, Matrix* FilterK, Matrix* ConvOut,
     int OutputHeight = 0, OutputWidth = 0, OutputDepth = 0;
 
     // 1x1 Conv2d is a special case of Convolution
-    if (Conv_Type == Conv2d_1_x_1)
+    if (Conv_Type == CONV_1x1)
     {
         // Conv2d 1x1 has stride = 1, no padding and K = 1
 
@@ -297,11 +288,11 @@ void Conv2d_Layer(Matrix* InputIMG, Matrix* FilterK, Matrix* ConvOut,
 
         Conv_vidMultiplier(ConvOut, InputIMG, FilterK,
                             OutputHeight, OutputWidth, OutputDepth,
-                            Conv2d_1_x_1, 1,
+                            CONV_1x1, 1,
                             activation_type,
                             BIASED_CHOISE, biasMat);
     }
-    else if (Conv_Type == DWConv_k_x_k)
+    else if (Conv_Type == CONV_DW)
     {
         // Ptr is used to alternate between input image and padding if needed
         Matrix* ptr = InputIMG;
@@ -318,7 +309,7 @@ void Conv2d_Layer(Matrix* InputIMG, Matrix* FilterK, Matrix* ConvOut,
 
         Conv_vidMultiplier(ConvOut, ptr, FilterK,
                             OutputHeight, OutputWidth, OutputDepth,
-                            DWConv_k_x_k, stride,
+                            CONV_DW, stride,
                             activation_type,
                             BIASED_CHOISE, biasMat);
 
@@ -365,7 +356,7 @@ void Conv2d_Layer(Matrix* InputIMG, Matrix* FilterK, Matrix* ConvOut,
         // Perform Multiplication and re-edit the dimensions of output
         Conv_vidMultiplier(ConvOut, &INPUT_MODIFIED, FilterK,
                             OutputHeight, OutputWidth, OutputDepth,
-                            Regular_Conv, stride,
+                            CONV_KxK, stride,
                             activation_type,
                             BIASED_CHOISE, biasMat);
 
@@ -413,7 +404,7 @@ void MBConv_Layer(Matrix* Input, Matrix* MBConvOut,
       // 1st layer: 1x1 Conv2d, stride = 1, padding = 0, K = 1
       Conv2d_Layer(Input, F1, &tmp1, 1, 0,
                    input_channels, FD1, FD1,
-                   Conv2d_1_x_1,
+                   CONV_1x1,
                    NO_ACTIVATION, 0, NULL);
 
       BN_ALL_PRE_DEFINED(&tmp1, SWISH_ACTIVATION,
@@ -435,7 +426,7 @@ void MBConv_Layer(Matrix* Input, Matrix* MBConvOut,
                     "Output_2 is allocated in device memory");
 
     Conv2d_Layer(ptr_mat, F2, &tmp2,
-                 Stride, padding, FD1, FD2, FD2, DWConv_k_x_k,
+                 Stride, padding, FD1, FD2, FD2, CONV_DW,
                  NO_ACTIVATION, 0, NULL);
 
 
@@ -462,7 +453,7 @@ void MBConv_Layer(Matrix* Input, Matrix* MBConvOut,
 
 
     // 1x1 Conv2d layer
-    Conv2d_Layer(&tmp2, F5, MBConvOut, 1, 0, FD4, FD5, FD5, Conv2d_1_x_1,
+    Conv2d_Layer(&tmp2, F5, MBConvOut, 1, 0, FD4, FD5, FD5, CONV_1x1,
                  NO_ACTIVATION, 0, NULL);
 
 
@@ -481,8 +472,8 @@ void MBConv_Layer(Matrix* Input, Matrix* MBConvOut,
 
 void MBConv_SKIP_IDENTITY(Matrix *parent, Matrix *child)
 {
-    int nbx = (int)ceil((float)parent -> width / DYNAMIC_TILE);
-    int nby = (int)ceil((float)parent -> height / DYNAMIC_TILE);
+    int nbx = (int)ceil((float)parent -> width / Tile_GEMM);
+    int nby = (int)ceil((float)parent -> height / Tile_GEMM);
     int nbz = parent -> depth;
 
     if (nbx == 0) nbx = 1;
@@ -492,7 +483,7 @@ void MBConv_SKIP_IDENTITY(Matrix *parent, Matrix *child)
     // This is the only kernel that runs 3d Grid;
     // Each block in z dimension controls 1 channel
     dim3 dim_Grid2(nbx, nby, nbz);
-    dim3 dim_Block2(DYNAMIC_TILE, DYNAMIC_TILE, 1);
+    dim3 dim_Block2(Tile_GEMM, Tile_GEMM, 1);
 
     Identity_Skip <<<dim_Grid2, dim_Block2 >>> (parent -> elements,
                                                   parent -> height,
@@ -516,8 +507,8 @@ void BN_ALL_PRE_DEFINED(Matrix* D_input, int activate, Matrix *mean, Matrix *var
       (y = ((x - Mean) / (sqrt(variance) + epsilon)) * weights + bais)
     */
 
-    int nbx = (int)ceil((float)D_input -> width / DYNAMIC_TILE);
-    int nby = (int)ceil((float)D_input -> height / DYNAMIC_TILE);
+    int nbx = (int)ceil((float)D_input -> width / Tile_GEMM);
+    int nby = (int)ceil((float)D_input -> height / Tile_GEMM);
     int nbz = D_input -> depth;
 
     if (nbx == 0) nbx = 1;
@@ -526,7 +517,7 @@ void BN_ALL_PRE_DEFINED(Matrix* D_input, int activate, Matrix *mean, Matrix *var
     // This is the only kernel that runs 3d Grid;
     // Each block in z dimension controls 1 channel
     dim3 dim_Grid3(nbx, nby, nbz);
-    dim3 dim_Block3(DYNAMIC_TILE, DYNAMIC_TILE, 1);
+    dim3 dim_Block3(Tile_GEMM, Tile_GEMM, 1);
 
     BN_Kernel_Final_Layer <<< dim_Grid3, dim_Block3 >>> (D_input -> elements,
                                                          D_input -> height,
@@ -555,8 +546,8 @@ void Padding_Zeros_Function(Matrix* Original_Matrix_Before, int padding_Value, M
                       padded_Matrix,
                       "Padded Matrix is allocated in device memory.");
 
-    int nbx = (int)ceil((float)padded_Matrix -> width / DYNAMIC_TILE);
-    int nby = (int)ceil((float)padded_Matrix -> height / DYNAMIC_TILE);
+    int nbx = (int)ceil((float)padded_Matrix -> width / Tile_GEMM);
+    int nby = (int)ceil((float)padded_Matrix -> height / Tile_GEMM);
     int nbz = padded_Matrix -> depth;
 
     if (nbx == 0) nbx = 1;
@@ -564,7 +555,7 @@ void Padding_Zeros_Function(Matrix* Original_Matrix_Before, int padding_Value, M
     if (nby == 0) nby = 1;
 
     dim3 dim_Grid2(nbx, nby, nbz);
-    dim3 dim_Block2(DYNAMIC_TILE, DYNAMIC_TILE, 1);
+    dim3 dim_Block2(Tile_GEMM, Tile_GEMM, 1);
 
     // Pass to the copying strided kernel to complete the padding process
     Complete_Padding_Process <<< dim_Grid2, dim_Block2 >>> (padded_Matrix -> elements,
@@ -587,7 +578,7 @@ void Conv_vidMultiplier(Matrix* out_11, Matrix* D_2, Matrix* D_1,
     /* Note: Out_11, XXX_Trans and Host_Conv_Filter are device matrices */
 
     // The multiplication kernel is used for the 1x1 Conv2d and kxk Conv2d
-    if (ConvType == Conv2d_1_x_1 || ConvType == Regular_Conv)
+    if (ConvType == CONV_1x1 || ConvType == CONV_KxK)
     {
         // Get number of blocks
         int nbx = (int)ceil((float)out_11 -> width / (THREAD_GRANULARITY_BLOCKS * Tile_GEMM));
@@ -625,8 +616,8 @@ void Conv_vidMultiplier(Matrix* out_11, Matrix* D_2, Matrix* D_1,
     // This case is for DWConv2d
     else
     {
-        int nbx = (int)ceil((float)out_11 -> width / TileDW);
-        int nby = (int)ceil((float)out_11 -> height / TileDW);
+        int nbx = (int)ceil((float)out_11 -> width / Tile_GEMM);
+        int nby = (int)ceil((float)out_11 -> height / Tile_GEMM);
         int nbz = out_11 -> depth;
 
         if (nbx == 0) nbx = 1;
@@ -635,7 +626,7 @@ void Conv_vidMultiplier(Matrix* out_11, Matrix* D_2, Matrix* D_1,
         // This is the only kernel that runs 3d Grid;
         // Each block in z dimension controls 1 channel
         dim3 dim_Grid2(nbx, nby, nbz);
-        dim3 dim_Block2(TileDW, TileDW, 1);
+        dim3 dim_Block2(Tile_GEMM, Tile_GEMM, 1);
 
 
         DWConv2d_kernel << < dim_Grid2, dim_Block2 >> > (D_2 -> elements, D_2 -> height, D_2 -> width, D_2 -> depth,
@@ -655,15 +646,15 @@ void Input_Unroll_gpu(int st_stride, Matrix* Device_Input, Matrix* Device_Unroll
             Device_Unrolled matrix is already allocated and ready.
     */
 
-    int nbx = (int)ceil((float)O_W / TileDW);
-    int nby = (int)ceil((float)O_H / TileDW);
+    int nbx = (int)ceil((float)O_W / Tile_GEMM);
+    int nby = (int)ceil((float)O_H / Tile_GEMM);
     int nbz = Device_Input -> depth;
 
     if (nbx == 0) nbx = 1;
     if (nby == 0) nby = 1;
 
     dim3 dim_Grid2(nbx, nby, nbz);
-    dim3 dim_Block2(TileDW, TileDW, 1);
+    dim3 dim_Block2(Tile_GEMM, Tile_GEMM, 1);
 
     // You need to use cudaDeviceSynchronize if the kernel isn't working
 

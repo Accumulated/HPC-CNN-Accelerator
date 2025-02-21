@@ -1,8 +1,12 @@
+#include "CommonInclude.h"
 #include "Typedef.h"
 #include "Matrix.h"
 
+Matrix::Matrix(){
 
-Matrix:: Matrix(int depth, int height, int width, float* elements, MatrixType MType):
+}
+
+Matrix:: Matrix(int height, int width, int depth, float* elements, MatrixType MType):
 
             // Initialize the layer variables
             depth(depth),
@@ -15,7 +19,7 @@ Matrix:: Matrix(int depth, int height, int width, float* elements, MatrixType MT
      * The elements are stored in a row-major order.
      * The element variable is a pointer to the 1D array.
     */
-    if(MType == DefineOnHost) {
+    if(this -> MType == DefineOnHost) {
         /* If the matrix type should become a host defined matrix:
          * There are 2 senarios for this situation -> Either the host
          * wants to copy the elements from the "elements" pointer to float or
@@ -33,12 +37,15 @@ Matrix:: Matrix(int depth, int height, int width, float* elements, MatrixType MT
         */
         size_t size = height * width * depth * sizeof(float);
 
+        /* Keep a reference to the host float elements sent (if needed). */
+        this -> elements_ref = elements;
+
         cudaError err = cudaMemcpy(this -> elements,
                                    elements,
                                    size,
                                    cudaMemcpyHostToDevice);
 
-        CheckCudaError(notification, err);
+        CheckCudaError("Matrix device construction", err);
 
     }
 
@@ -51,20 +58,32 @@ Matrix:: Matrix(int depth, int height, int width, float* elements, MatrixType MT
 }
 
 
-
 Matrix:: ~Matrix() {
 
-    /* */
-    delete[] elements;
+    /* If a matrix is on a Device, make sure to free Whatever cudaMalloc allocated. */
+    if(this -> MType == DefineOnDevice) {
 
+        cudaError err = cudaFree(this -> elements);
+
+        CheckCudaError("Matrix destruction \n", err);
+
+    } else if(this -> MType == DefineOnHost) {
+
+        /* Nothing to do */
+    }
+
+    else {
+
+        /* */
+        std::cout << "Matrix type is not defined" << std::endl;
+    }
 }
 
 
-Matrix:: Matrix_SetDimensions(int depth, int height, int width) {
+void Matrix:: Matrix_SetDimensions(int height, int width, int depth) {
 
-    /* */
-    this -> depth = depth;
     this -> height = height;
     this -> width = width;
+    this -> depth = depth;
 
 }

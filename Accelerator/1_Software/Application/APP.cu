@@ -1118,7 +1118,7 @@ void HEAD_LAYER(Matrix *INPUT_MATRIX, Matrix *F_HEAD, Matrix *FC_WEIGHTS,
   Conv2d_Layer(INPUT_MATRIX,  F_HEAD, HEAD_OUT,
               stride, padding,
               INPUT_MATRIX -> depth, out_depth, filter_density,
-              Conv2d_1_x_1, NO_ACTIVATION,
+              CONV_1x1, NO_ACTIVATION,
               0, NULL);
 
   BN_ALL_PRE_DEFINED(HEAD_OUT, SWISH_ACTIVATION,
@@ -1148,7 +1148,7 @@ void HEAD_LAYER(Matrix *INPUT_MATRIX, Matrix *F_HEAD, Matrix *FC_WEIGHTS,
 
   Conv_vidMultiplier(&Out1, FC_WEIGHTS, &Result_Mean,
                       1, 1000, 1,
-                      Conv2d_1_x_1, 1,
+                      CONV_1x1, 1,
                       NO_ACTIVATION,
                       0, NULL);
 
@@ -1189,7 +1189,7 @@ void STEM_LAYER(Matrix *DInput_Mat, Matrix *F_STEM,
   Conv2d_Layer(DInput_Mat,  F_STEM, STEM_OUT,
               stride, padding,
               image_depth, out_depth, filter_density,
-              Regular_Conv, NO_ACTIVATION,
+              CONV_KxK, NO_ACTIVATION,
               0, NULL);
 
 

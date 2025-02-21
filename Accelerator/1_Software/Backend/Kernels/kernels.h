@@ -2,7 +2,6 @@
 #define KERNELS_H_
 
 
-#define THREAD_GRANULARITY_BLOCKS	2
 
 extern const int BLOCK_SIZE;
 extern int MBCONV1_0_flag;

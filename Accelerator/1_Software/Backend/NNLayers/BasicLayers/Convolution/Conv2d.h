@@ -1,5 +1,6 @@
 #pragma once
 
+
 class Conv2d {
 
 
@@ -8,10 +9,11 @@ public:
             int kernel_size,
             int stride,
             int padding,
-            float* weight,
-            float* bias,
-            float* input,
-            float* output);
+            ActivationTypes activation_type,
+            Matrix* weight,
+            Matrix* bias,
+            Matrix* input,
+            Matrix* output);
 
     ~Conv2d();
 
@@ -21,10 +23,11 @@ private:
     int kernel_size;
     int stride;
     int padding;
-    Matrix weight;
-    Matrix bias;
-    Matrix input;
-    Matrix output;
+    ActivationTypes activation_type;
+    Matrix* weight;
+    Matrix* bias;
+    Matrix* input;
+    Matrix* output;
     SupportConvolutionOPs ConvType;
 
 };

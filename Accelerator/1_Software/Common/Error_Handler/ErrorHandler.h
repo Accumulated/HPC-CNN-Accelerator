@@ -1,13 +1,6 @@
-#include "CommonInclude.h"
+#pragma once
 
-
-void CheckCudaError(const char* ptr, cudaError err)
-{
-    if (err == cudaSuccess);
-    else
-        printf("CUDA error in %s: %s\n", ptr, cudaGetErrorString(err));
-}
-
+void CheckCudaError(const char* ptr, cudaError err);
 
 static void HandleError(cudaError_t err, const char *file, int line) {
 
@@ -18,5 +11,10 @@ static void HandleError(cudaError_t err, const char *file, int line) {
         exit(EXIT_FAILURE);
 
     }
-
+    else{
+        /* Nothing to do */
+    }
 }
+
+
+#define HANDLE_ERROR( err ) (HandleError( err, __FILE__, __LINE__ ))

@@ -2,23 +2,8 @@
 #define functions_H_
 
 #include "CommonInclude.h"
-
-
-const int Tile_GEMM = 16;
-const int TileDW = 16;
-const int DYNAMIC_TILE = 16;
-
-const int NO_ACTIVATION = 0;
-const int SWISH_ACTIVATION = 1;
-const int SIGMOID_ACTIVATION = 2;
-
-const int BIASED = 1;
-
-const int Conv2d_1_x_1 = 1;
-const int DWConv_k_x_k = 2;
-const int Regular_Conv = 3;
-
-
+#include "Matrix.h"
+#include "Timer.h"
 
 void show_me_enhanced(Matrix* ptr, const char* NamePtr);
 

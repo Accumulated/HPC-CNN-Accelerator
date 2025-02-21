@@ -3,6 +3,7 @@
 #include <time.h>
 #include <math.h>
 
+#include "CommonInclude.h"
 #include "kernels.h"
 #include "Functions.h"
 

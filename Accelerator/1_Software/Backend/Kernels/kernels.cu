@@ -4,7 +4,6 @@
 #include <math.h>
 
 #include "CommonInclude.h"
-#include "kernels.h"
 #include "Functions.h"
 
 #define WARP_SIZE 32
@@ -44,18 +43,22 @@ __global__ void INPUT_UNROLLING(int stride, int Filter_Height,
     // Limit number of threads
     if (row_no_strided < Output_Height && col_no_strided < Output_Width && depth < D1)
     {
+
       // Each thread unrolls k x k elements
-      for (int local_row = 0; local_row < Filter_Height; local_row++)
-      {
-        for (int local_col = 0; local_col < Filter_Height; local_col++)
-        {
+      for (int local_row = 0; local_row < Filter_Height; local_row++){
+
+        for (int local_col = 0; local_col < Filter_Height; local_col++){
+
           // 1. local row and column shifts affect the locations in Unrolled matrix
           // 2. For each col and row non strided values -> you are adding an offset to columns and rows in Unrolled matrix
           // 3. Offset the depth using "depth_offset" variable
           X_unrolled[local_col * W2 + local_row * Filter_Height * W2 + col_no_strided + row_no_strided * Output_Width + depth_offset] =
           Input[(row + local_row) * W1 + (col + local_col) + depth * H1 * W1];
+
         }
+
       }
+
     }
 
 }
@@ -376,7 +379,8 @@ __global__ void ElementWiseSubtraction(float *A, int H1, int W1, int D1,
 }
 
 
-__global__ void BN_Kernel_Final_Layer(float *A, int H1, int W1, int D1,
+__global__ void BatchNormKernel(float *InputMatrixElements, float *OutputMatrixElements,
+                                      int H1, int W1, int D1,
                                       float *D_mean, float *D_variance,
                                       float *D_weight, float *D_bias,
                                       int activate)
@@ -396,20 +400,23 @@ __global__ void BN_Kernel_Final_Layer(float *A, int H1, int W1, int D1,
 
     if ((row < H1) && (col < W1) && (depth < D1))
     {
-        A[index] = ((A[index] - D_mean[index3]) / (sqrtf(D_variance[index3] + 0.001f))) * D_weight[index3] + D_bias[index3];
-        tmp = A[index];
+        OutputMatrixElements[index] = ((InputMatrixElements[index] - D_mean[index3]) / (sqrtf(D_variance[index3] + 0.001f))) * D_weight[index3]
+                                      + D_bias[index3];
 
         switch (activate) {
-                  case 1:
-                      // Swish activation function
-                      A[index] = tmp / (1.0f + expf(-1.0f * tmp));
-                      break;
-                  case 2:
-                      // Sigmoid activation function
-                      A[index] = 1.0f / (1.0f + expf(-1.0f * tmp));
-                      break;
-                  default:
-                      break;
-                    }
+
+          case SWISH_ACTIVATION:
+              // Swish activation function
+              OutputMatrixElements[index] = tmp / (1.0f + expf(-1.0f * OutputMatrixElements[index]));
+              break;
+
+          case SIGMOID_ACTIVATION:
+              // Sigmoid activation function
+              OutputMatrixElements[index] = 1.0f / (1.0f + expf(-1.0f * tmp));
+              break;
+
+          default:
+              break;
+        }
     }
 }

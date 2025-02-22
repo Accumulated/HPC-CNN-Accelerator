@@ -1,6 +1,5 @@
 #include "CommonInclude.h"
-#include "Typedef.h"
-#include "Matrix.h"
+
 
 Matrix::Matrix(){
 

@@ -1,6 +1,4 @@
 #include "CommonInclude.h"
-#include "Matrix.h"
-#include "kernels.h"
 #include "Conv2d.h"
 
 
@@ -9,23 +7,19 @@ Conv2d:: Conv2d(SupportConvolutionOPs ConvType,
                 int stride,
                 int padding,
                 ActivationTypes activation_type,
-                Matrix* weight,
-                Matrix* bias,
-                Matrix* input,
-                Matrix* output):
+                float* weight,
+                float* bias):
 
             // Initialize the layer variables
             ConvType(ConvType),
             kernel_size(kernel_size),
             stride(stride),
             padding(padding),
-            activation_type(activation_type),
-            weight(weight),
-            bias(bias),
-            input(input),
-            output(output) {
+            activation_type(activation_type){
 
-
+    /* Missing output allocation and preperation */
+    this -> weight = new Matrix();
+    this -> bias = new Matrix();
 }
 
 
@@ -36,14 +30,14 @@ Conv2d:: ~Conv2d() {
 }
 
 
-void Conv2d::operator()() {
+Matrix* Conv2d::operator()(Matrix *D_input) {
 
    // The multiplication kernel is used for the 1x1 Conv2d and kxk Conv2d
     if (ConvType == CONV_1x1 || ConvType == CONV_KxK)
     {
         // Get number of blocks
-        int nbx = (int) ceil((float)(this -> output -> width) / (THREAD_GRANULARITY_BLOCKS * Tile_GEMM));
-        int nby = (int) ceil((float)(this -> output -> height) / Tile_GEMM);
+        int nbx = (int) ceil((float)(this -> Output -> width) / (THREAD_GRANULARITY_BLOCKS * Tile_GEMM));
+        int nby = (int) ceil((float)(this -> Output -> height) / Tile_GEMM);
         int num_block_for_phases = (int) ceil((float)(this -> weight -> width) / Tile_GEMM);
 
         // Check for zero blocks to make sure code runs correctly
@@ -55,16 +49,16 @@ void Conv2d::operator()() {
 
         if (this -> bias -> elements != NULL)
         {
-            this -> bias -> Matrix_SetDimensions(this -> output -> height, 1, 1);
+            this -> bias -> Matrix_SetDimensions(this -> Output -> height, 1, 1);
 
             // Call shared memory tiled Multiplication  algorithm
             MatrixMulKernel<<<dim_Grid2, dim_Block2>>> (
 
                 this -> weight -> elements, this -> weight -> height, this -> weight -> width, this -> weight -> depth,
 
-                this -> input -> elements, this -> input -> height, this -> input -> width, this -> input -> depth,
+                D_input -> elements, D_input -> height, D_input -> width, D_input -> depth,
 
-                this -> output -> elements, this -> output -> height, this -> output -> width, this -> output -> depth,
+                this -> Output -> elements, this -> Output -> height, this -> Output -> width, this -> Output -> depth,
 
                 num_block_for_phases, activation_type,
 
@@ -79,9 +73,9 @@ void Conv2d::operator()() {
 
                 this -> weight -> elements, this -> weight -> height, this -> weight -> width, this -> weight -> depth,
 
-                this -> input -> elements, this -> input -> height, this -> input -> width, this -> input -> depth,
+                D_input -> elements, D_input -> height, D_input -> width, D_input -> depth,
 
-                this -> output -> elements, this -> output -> height, this -> output -> width, this -> output -> depth,
+                this -> Output -> elements, this -> Output -> height, this -> Output -> width, this -> Output -> depth,
 
                 num_block_for_phases, this -> activation_type,
 
@@ -95,9 +89,9 @@ void Conv2d::operator()() {
     else if (ConvType == CONV_DW)
     {
 
-        int nbx = (int)ceil((float)(this -> output -> width) / Tile_GEMM);
-        int nby = (int)ceil((float)(this -> output -> height) / Tile_GEMM);
-        int nbz = this -> output -> depth;
+        int nbx = (int)ceil((float)(this -> Output -> width) / Tile_GEMM);
+        int nby = (int)ceil((float)(this -> Output -> height) / Tile_GEMM);
+        int nbz = this -> Output -> depth;
 
         if (nbx == 0) nbx = 1;
         if (nby == 0) nby = 1;
@@ -109,11 +103,11 @@ void Conv2d::operator()() {
 
         DWConv2d_kernel<<<dim_Grid2, dim_Block2>>> (
 
-            this -> input -> elements, this -> input -> height, this -> input -> width, this -> input -> depth,
+            D_input -> elements, D_input -> height, D_input -> width, D_input -> depth,
 
             this -> weight -> elements, this -> weight -> height, this -> weight -> width, this -> weight -> depth,
 
-            this -> output -> elements, this -> output -> height, this -> output -> width, this -> output -> depth,
+            this -> Output -> elements, this -> Output -> height, this -> Output -> width, this -> Output -> depth,
 
             this -> stride
         );
@@ -126,4 +120,5 @@ void Conv2d::operator()() {
 
     }
 
+    return this -> Output;
 }

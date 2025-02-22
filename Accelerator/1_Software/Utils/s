@@ -1,0 +1,94 @@
+
+// 3 Sequential Operations: Same as "set_allocate_copy_Matrix_Device",
+// However, it uses a pointer to float as a parent.
+void set_allocate_copy_array_Device(Matrix *child, float *parent,
+									int height, int width, int depth,
+									const char *notification)
+{
+	Set_DeviceMatrix(height, width, depth, child, notification);
+
+	size_t size = height * width * depth * sizeof(float);
+
+	cudaError err = cudaMemcpy(child -> elements, parent, size,
+								cudaMemcpyHostToDevice);
+
+	CheckCudaError(notification, err);
+}
+
+// 3 Sequential Operations: Set dimensions, allocate device memory and copy.
+void set_allocate_copy_Matrix_Device(Matrix *child, Matrix *parent, char *notification)
+{
+	Set_DeviceMatrix(parent -> height, parent -> width, parent -> depth,
+					          child, notification);
+
+	size_t size = parent -> height * parent -> width * parent -> depth * sizeof(float);
+
+	cudaError err = cudaMemcpy(child -> elements, parent -> elements,
+								              size, cudaMemcpyHostToDevice);
+	CheckCudaError(notification, err);
+}
+
+void set_allocate_copy_Matrix_Device_specific(Matrix *child, Matrix *parent, char *notification, int height, int width, int depth)
+{
+	Set_DeviceMatrix(height, width, depth, child, notification);
+
+	size_t size = child -> height * child -> width * child -> depth * sizeof(float);
+
+
+	cudaError err = cudaMemcpy(child -> elements, parent -> elements,
+								            size, cudaMemcpyHostToDevice);
+
+
+	CheckCudaError(notification, err);
+}
+
+void just_copy_HTD(Matrix *child, Matrix *parent, const char *notification)
+{
+    // Read C from device memory
+  size_t size = parent -> width * parent -> height * parent -> depth * sizeof(float);
+
+	cudaError err = cudaMemcpy(child -> elements, parent -> elements, size, cudaMemcpyHostToDevice);
+
+
+	CheckCudaError(notification, err);
+}
+
+void just_copy_DTH(Matrix *child, Matrix *parent, const char *notification)
+{
+  // Read C from device memory
+  size_t size = parent -> width * parent -> height * parent -> depth * sizeof(float);
+
+
+	cudaError err = cudaMemcpy(child -> elements, parent -> elements, size, cudaMemcpyDeviceToHost);
+
+	CheckCudaError(notification, err);
+}
+
+void set_allocate_Host(Matrix *ptr, int height, int width, int depth)
+{
+	// Note this function allocates memory, remember to free
+	Set_HostMatrix(height, width, depth, ptr);
+
+	int Fsize = height * width * depth* sizeof(float);
+
+	ptr -> elements = (float *) malloc(Fsize);
+}
+
+// Allocations for Device matrices
+void Set_DeviceMatrix(int height, int width, int depth, Matrix* ptr, const char* NamePtr)
+{
+    ptr->width = width;
+    ptr->height = height;
+    ptr->depth = depth;
+
+    size_t size = width * height * depth * sizeof(float);
+    cudaError err = cudaMalloc((void **)&(ptr->elements), size);
+    CheckCudaError(NamePtr, err);
+}
+
+void Set_HostMatrix(int height, int width, int depth, Matrix* ptr)
+{
+    ptr->width = width;
+    ptr->height = height;
+    ptr->depth = depth;
+}

@@ -2,7 +2,6 @@
 #define functions_H_
 
 #include "CommonInclude.h"
-#include "Matrix.h"
 #include "Timer.h"
 
 void show_me_enhanced(Matrix* ptr, const char* NamePtr);

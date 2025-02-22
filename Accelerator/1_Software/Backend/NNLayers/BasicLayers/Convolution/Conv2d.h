@@ -1,23 +1,24 @@
 #pragma once
 
+#include "IBasicLayer.h"
 
-class Conv2d {
+class Conv2d: public IBasicLayer {
 
 
 public:
+    Matrix *Output;
+
     Conv2d(SupportConvolutionOPs ConvType,
             int kernel_size,
             int stride,
             int padding,
             ActivationTypes activation_type,
-            Matrix* weight,
-            Matrix* bias,
-            Matrix* input,
-            Matrix* output);
+            float* weight,
+            float* bias);
 
     ~Conv2d();
 
-    void operator()();
+    Matrix* operator()(Matrix *D_input);
 
 private:
     int kernel_size;
@@ -26,8 +27,6 @@ private:
     ActivationTypes activation_type;
     Matrix* weight;
     Matrix* bias;
-    Matrix* input;
-    Matrix* output;
     SupportConvolutionOPs ConvType;
 
 };

@@ -2,9 +2,10 @@
 #define KERNELS_H_
 
 
-
 extern const int BLOCK_SIZE;
 extern int MBCONV1_0_flag;
+
+
 __global__ void CastingDivision(float *A, int W1, float B);
 
 __global__ void INPUT_UNROLLING(int stride, int Filter_Height,
@@ -45,11 +46,11 @@ __global__ void ElementWiseSubtraction(float *A, int H1, int W1, int D1,
                                        float *mean);
 
 
-__global__ void BN_Kernel_Final_Layer(float *A, int H1, int W1, int D1,
-                                      float *D_mean, float *D_variance,
-                                      float *D_weight, float *D_bias,
-                                      int activate);
-
+__global__ void BatchNormKernel(float *InputMatrixElements, float *OutputMatrixElements,
+                                int H1, int W1, int D1,
+                                float *D_mean, float *D_variance,
+                                float *D_weight, float *D_bias,
+                                int activate);
 
 
 

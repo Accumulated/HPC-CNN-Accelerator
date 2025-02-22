@@ -71,6 +71,16 @@
         "streambuf": "cpp",
         "thread": "cpp",
         "typeinfo": "cpp",
-        "__nullptr": "cpp"
-    }
+        "__nullptr": "cpp",
+        "__functional_03": "cpp",
+        "__functional_base": "cpp",
+        "__locale": "cpp",
+        "__hash_table": "cpp",
+        "__bit_reference": "cpp",
+        "__split_buffer": "cpp",
+        "__tree": "cpp",
+        "filesystem": "cpp",
+        "__config": "cpp"
+    },
+    "C_Cpp.errorSquiggles": "enabled"
 }

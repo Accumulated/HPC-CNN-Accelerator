@@ -1,6 +1,6 @@
 
 // weight for Expansion Convolution layer has dimension of  torch.Size([1, 1, 40, 240])
-float MBConv6_5_expansion_conv_conv2d_weights [ 1* 1 * 40 * 240] =
+const float MBConv6_5_expansion_conv_conv2d_weights [ 1* 1 * 40 * 240] =
 {
 	 0.12904872,      0.25508246,     -0.11464541,      0.01196257,
                 0.14329444,      0.11712120,      0.16997819,      0.06574865,
@@ -2408,7 +2408,7 @@ float MBConv6_5_expansion_conv_conv2d_weights [ 1* 1 * 40 * 240] =
 // Weight shape = torch.Size([240])
 
 
-float MBConv6_5_expansion_conv_BN_weights [240] =
+const float MBConv6_5_expansion_conv_BN_weights [240] =
 {
 1.56566060,  0.62250638,  0.79401213,  0.59882885,  0.55509871,
          1.31815016,  0.59992945,  1.97717083,  1.02103055,  0.45793435,
@@ -2460,7 +2460,7 @@ float MBConv6_5_expansion_conv_BN_weights [240] =
          0.26076430,  0.61651105,  0.14657842,  0.48462564,  1.74204147
 };
 
-float MBConv6_5_expansion_conv_BN_bias [240] =
+const float MBConv6_5_expansion_conv_BN_bias [240] =
 {
 
 		 0.59115696,     -0.56380081,     -1.09230757,     -0.26519299,
@@ -2526,7 +2526,7 @@ float MBConv6_5_expansion_conv_BN_bias [240] =
 };
 
 
-float MBConv6_5_expansion_conv_BN_mean [240] =
+const float MBConv6_5_expansion_conv_BN_mean [240] =
 {
 		 -0.78732353, -1.35383308,  0.19538999, -0.70827872, -1.44082046,
          2.64548254, -0.54374522,  0.56906801, -0.53595281,  0.25915936,
@@ -2579,7 +2579,7 @@ float MBConv6_5_expansion_conv_BN_mean [240] =
 };
 
 
-float MBConv6_5_expansion_conv_BN_variance [240] =
+const float MBConv6_5_expansion_conv_BN_variance [240] =
 {
 120.63366699, 200.10827637, 140.46212769,  79.89718628, 129.78616333,
         304.25668335,  63.80516434, 124.52387238,  88.60898590,  30.40966606,

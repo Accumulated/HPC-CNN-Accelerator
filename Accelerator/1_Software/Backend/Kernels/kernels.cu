@@ -4,7 +4,6 @@
 #include <math.h>
 
 #include "CommonInclude.h"
-#include "Functions.h"
 
 #define WARP_SIZE 32
 

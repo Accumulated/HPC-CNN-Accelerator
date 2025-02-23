@@ -80,7 +80,8 @@
         "__split_buffer": "cpp",
         "__tree": "cpp",
         "filesystem": "cpp",
-        "__config": "cpp"
+        "__config": "cpp",
+        "ios": "cpp"
     },
     "C_Cpp.errorSquiggles": "enabled"
 }

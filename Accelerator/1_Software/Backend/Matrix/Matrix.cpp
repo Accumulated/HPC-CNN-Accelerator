@@ -38,27 +38,27 @@ Matrix:: Matrix(int height, int width, int depth, int density, const float* elem
         /* Keep a reference to the host float elements sent (if needed). */
         this -> elements_ref = elements_ref;
 
-        /*cudaError err = cudaMalloc((void **)&(this -> elements), size);
+        cudaError err = cudaMalloc((void **)&(this -> elements), size);
 
-        CheckCudaError("Matrix device construction - Memory allocation on device.", err);*/
+        CheckCudaError("Matrix device construction - Memory allocation on device.", err);
 
         if(this -> elements_ref == NULL) {
             /* If the elements are not defined, then the matrix is initialized with zeros. */
-            /*err = cudaMemset(this -> elements, 0, size);
+            err = cudaMemset(this -> elements, 0, size);
 
-            CheckCudaError("Matrix device construction - Memory initialization on device.", err);*/
+            CheckCudaError("Matrix device construction - Memory initialization on device.", err);
 
         }
 
         else {
 
             /* If the elements are defined, then copy the elements to the device. */
-            /*err = cudaMemcpy( this -> elements,
+            err = cudaMemcpy( this -> elements,
                              elements_ref,
                              size,
                              cudaMemcpyHostToDevice);
 
-            CheckCudaError("Matrix device construction - Memory copy on device.", err);*/
+            CheckCudaError("Matrix device construction - Memory copy on device.", err);
 
         }
     }
@@ -110,27 +110,27 @@ Matrix:: Matrix(int height, int width, int depth, const float* elements_ref, Mat
         /* Keep a reference to the host float elements sent (if needed). */
         this -> elements_ref = elements_ref;
 
-        /*cudaError err = cudaMalloc((void **)&(this -> elements), size);
+        cudaError err = cudaMalloc((void **)&(this -> elements), size);
 
-        CheckCudaError("Matrix device construction - Memory allocation on device.", err);*/
+        CheckCudaError("Matrix device construction - Memory allocation on device.", err);
 
         if(this -> elements_ref == NULL) {
             /* If the elements are not defined, then the matrix is initialized with zeros. */
-           /* err = cudaMemset(this -> elements, 0, size);
+            err = cudaMemset(this -> elements, 0, size);
 
-            CheckCudaError("Matrix device construction - Memory initialization on device.", err);*/
+            CheckCudaError("Matrix device construction - Memory initialization on device.", err);
 
         }
 
         else {
 
             /* If the elements are defined, then copy the elements to the device. */
-            /*err = cudaMemcpy( this -> elements,
+            err = cudaMemcpy( this -> elements,
                              elements_ref,
                              size,
                              cudaMemcpyHostToDevice);
 
-            CheckCudaError("Matrix device construction - Memory copy on device.", err);*/
+            CheckCudaError("Matrix device construction - Memory copy on device.", err);
 
         }
     }

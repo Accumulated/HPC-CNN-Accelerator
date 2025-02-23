@@ -1,5 +1,5 @@
 // Input for Expansion Convolution layer has a shape of torch.Size([1, 16, 112, 127])
-const const float MBConv6_1_expansion_conv_conv2d_input_matrix [112 * 127 * 16] =
+const float MBConv6_1_expansion_conv_conv2d_input_matrix [112 * 127 * 16] =
 {
 	10.83776665,     13.31894016,     22.77938080,     16.61874771,
 	22.36069870,     18.69038963,     21.82934380,     20.30145073,

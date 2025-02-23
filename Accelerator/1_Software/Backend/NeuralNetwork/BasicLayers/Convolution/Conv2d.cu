@@ -190,7 +190,7 @@ Matrix* Conv2d::operator()(Matrix *D_input) {
         dim3 dim_Grid2(nbx, nby, 1);
         dim3 dim_Block2(Tile_GEMM, Tile_GEMM, 1);
 
-        if (this -> bias -> elements != NULL)
+        if (this -> bias != NULL)
         {
             this -> bias -> Matrix_SetDimensions(this -> Output -> height, 1, 1);
 
@@ -332,6 +332,10 @@ Matrix* Conv2d::operator()(Matrix *D_input) {
         std::cout << "Unsupported Convolution Operation" << std::endl;
 
     }
+
+    this -> Output -> height = this -> OutputDim.Height;
+    this -> Output -> width = this -> OutputDim.Width;
+    this -> Output -> depth = this -> OutputDim.Depth;
 
     return this -> Output;
 }

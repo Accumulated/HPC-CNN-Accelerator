@@ -1,37 +1,15 @@
 #include "CommonInclude.h"
 #include "IBasicLayer.h"
-#include "MBConv.h"
-#include "Conv2d.h"
 #include "BatchNorm.h"
+#include "Conv2d.h"
 #include "SQueeze.h"
+#include "MBConv.h"
 
 
-MBConv::MBConv(
-    float* ExpansionConvWeights, float* DepthWiseConvWeights,
-    float* SqueezeExciteWeights_1, float* SqueezeExciteWeights_2,
-    float* ProjectWeights,
-
-    int ExpansionFilterDensity, int DepthWiseFilterDensity,
-    int SqueezeExcite1FilterDensity, int SqueezeExcite2FilterDensity,
-    int ProjectFilterDensity,
-
-    int input_channels, int output_channels, int FilterSizeDW,
-    int Stride, int padding, SkipID SkipMe,
-
-    float* SqueezeExciteBias_1, float* SqueezeExciteBias_2,
-
-    float* ExpansionBatchNorm_Mean, float* ExpansionBatchNorm_Variance,
-    float* ExpansionBatchNorm_Weights, float* ExpansionBatchNorm_Bias,
-
-    float* DepthWiseBatchNorm_Mean, float* DepthWiseBatchNorm_Variance,
-    float* DepthWiseBatchNorm_Weights, float* DepthWiseBatchNorm_Bias,
-
-    float* ProjectBatchNorm_Mean, float* ProjectBatchNorm_Variance,
-    float* ProjectBatchNorm_Weights, float* ProjectBatchNorm_Bias
-  ){
+MBConv:: MBConv(const MBConv_Abstraction* MBConvDetails){
 
     /* Expansion Layer conv2d + BN */
-    if(ExpansionConvWeights){
+    if(MBConvDetails -> Expansion.Conv.ConvWeights){
       /* Define an expansion layer for this MBConv block. */
       Conv2d *Conv1 = new Conv2d(
         CONV_1x1,                     /*ConvType*/

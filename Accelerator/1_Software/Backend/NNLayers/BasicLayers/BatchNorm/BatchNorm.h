@@ -3,13 +3,6 @@
 #include "IBasicLayer.h"
 
 
-typedef struct BatchNorm_Weights{
-    float* Mean;
-    float* Variance;
-    float* Weights;
-    float* Bias;
-}BatchNorm_Weights;
-
 
 class BatchNorm: public IBasicLayer{
 

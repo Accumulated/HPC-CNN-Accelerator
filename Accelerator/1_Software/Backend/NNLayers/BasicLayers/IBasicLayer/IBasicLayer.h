@@ -6,6 +6,6 @@ public:
     // Virtual destructor to ensure proper cleanup of derived classes
     virtual ~IBasicLayer() {}
 
-    Matrix* operator()(Matrix* D_input) = 0;
+    virtual Matrix* operator()(Matrix* D_input) = 0;
 
 };

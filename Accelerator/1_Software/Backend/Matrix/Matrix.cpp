@@ -1,10 +1,6 @@
 #include "CommonInclude.h"
 
 
-Matrix::Matrix(){
-
-}
-
 Matrix:: Matrix(int height, int width, int depth, float* elements, MatrixType MType):
 
             // Initialize the layer variables

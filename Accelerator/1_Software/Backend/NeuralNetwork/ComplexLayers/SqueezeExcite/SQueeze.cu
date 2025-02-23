@@ -40,9 +40,9 @@ SQueeze::SQueeze(const MBConv_SqueezeExcite* Details, Dimension* InputDim): Deta
   layers.push_back(Conv2);
 
   this -> OutputDim = Dimension{
-    .Height = MovingDimension->Height,
-    .Width = MovingDimension->Width,
-    .Depth = MovingDimension->Depth,
+    .Height = InputDim -> Height,
+    .Width = InputDim -> Width,
+    .Depth = InputDim -> Depth,
   };
 
 }

@@ -95,6 +95,7 @@ MBConv:: MBConv(const MBConv_Abstraction* MBConvDetails, Dimension* InputDim): M
     layers.push_back(SE);
 
     MovingDimension = SE -> SQ_GetOutputDim();
+
   }
 
   if(MBConvDetails -> Project.Conv.ConvWeights){

@@ -24,6 +24,7 @@ MBConv_Abstraction MBConv6_1_Layers{
             .Variance = MBConv6_1_expansion_conv_BN_variance,
             .Weights = MBConv6_1_expansion_conv_BN_weights,
             .Bias = MBConv6_1_expansion_conv_BN_bias,
+            .size = 96,
         }
     },
 
@@ -42,6 +43,7 @@ MBConv_Abstraction MBConv6_1_Layers{
             .Variance = MBConv6_1_depthwise_conv_BN_variance,
             .Weights = MBConv6_1_depthwise_conv_BN_weights,
             .Bias = MBConv6_1_depthwise_conv_BN_bias,
+            .size = 96,
         }
     },
 
@@ -60,6 +62,7 @@ MBConv_Abstraction MBConv6_1_Layers{
             .Variance = MBConv6_1_project_conv_BN_variance,
             .Weights = MBConv6_1_project_conv_BN_weights,
             .Bias = MBConv6_1_project_conv_BN_bias,
+            .size = 24,
         }
     },
 
@@ -96,6 +99,7 @@ MBConv_Abstraction MBConv6_1_Layers{
                 .Variance = nullptr,
                 .Weights = nullptr,
                 .Bias = nullptr,
+                .size = 0,
             }
         }
     },

@@ -39,6 +39,7 @@ typedef struct BatchNorm_Weights{
     const float* Variance;
     const float* Weights;
     const float* Bias;
+    int size;
 }BatchNorm_Weights;
 
 

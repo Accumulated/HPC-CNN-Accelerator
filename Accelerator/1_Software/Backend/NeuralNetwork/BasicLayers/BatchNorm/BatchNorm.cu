@@ -7,26 +7,25 @@ BatchNorm:: BatchNorm(const BatchNorm_Weights* Details, ActivationTypes activati
 
   if(Details -> Mean && Details -> Variance && Details -> Weights && Details -> Bias){
 
-    /* Missing output allocation and preperation */
-    this -> mean = new Matrix(sizeof(Details -> Mean) / sizeof(float),
+    this -> mean = new Matrix(Details -> size,
                               1,
                               1,
                               Details -> Mean,
                               DefineOnDevice);
 
-    this -> bias = new Matrix(sizeof(Details -> Bias) / sizeof(float),
+    this -> bias = new Matrix(Details -> size,
                               1,
                               1,
                               Details -> Bias,
                               DefineOnDevice);
 
-  this -> weights = new Matrix(sizeof(Details -> Weights) / sizeof(float),
+  this -> weights = new Matrix(Details -> size,
                               1,
                               1,
                               Details -> Weights,
                               DefineOnDevice);
 
-  this -> variance = new Matrix(sizeof(Details -> Variance) / sizeof(float),
+  this -> variance = new Matrix(Details -> size,
                                 1,
                                 1,
                                 Details -> Variance,
@@ -49,6 +48,11 @@ BatchNorm:: BatchNorm(const BatchNorm_Weights* Details, ActivationTypes activati
 
 }
 
+Dimension* BatchNorm:: BN_GetOutputDim() {
+
+  return &(this -> OutputDim);
+
+}
 
 Matrix* BatchNorm:: operator()(Matrix *D_input)
 {

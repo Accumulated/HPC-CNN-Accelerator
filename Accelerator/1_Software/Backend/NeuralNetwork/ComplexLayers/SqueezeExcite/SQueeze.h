@@ -13,6 +13,7 @@ public:
     ~SQueeze();
 
     Matrix* operator()(Matrix* D_input);
+    Dimension* SQ_GetOutputDim();
 
     Matrix* Output;
 

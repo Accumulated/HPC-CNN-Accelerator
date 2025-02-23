@@ -22,17 +22,19 @@ Conv2d:: Conv2d(SupportConvolutionOPs ConvType,
         /* Missing output allocation and preperation */
         this -> weight = new Matrix(Details -> FilterHeight,
                                     Details -> FilterWidth,
-                                    Details -> FilterWidth,
+                                    Details -> FilterDepth,
+                                    Details -> FilterDensity,
                                     Details -> ConvWeights,
                                     DefineOnDevice);
     }
 
     if(Details -> Bias){
 
-        this -> bias = new Matrix(sizeof(Details -> Bias) / sizeof(float),
+        this -> bias = new Matrix(Details -> FilterDensity,
                                     1,
                                     1,
-                                    Details -> Bias, DefineOnDevice);
+                                    Details -> Bias,
+                                    DefineOnDevice);
     }
 
     // Height and width changes, Only depth remains still
@@ -66,7 +68,7 @@ Conv2d:: Conv2d(SupportConvolutionOPs ConvType,
                             // (H * W)
                             OutputHeight * OutputWidth,
                             // 1 channel
-                            OutputDepth,
+                            1,
                             NULL,
                             DefineOnDevice
                         );

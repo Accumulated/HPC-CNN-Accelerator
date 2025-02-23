@@ -20,6 +20,7 @@ public:
 
 
     BatchNorm(const BatchNorm_Weights* Details, ActivationTypes activation, Dimension* InputDim);
+    Dimension* BN_GetOutputDim();
 
     Matrix* operator()(Matrix *D_input);
 

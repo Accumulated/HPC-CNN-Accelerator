@@ -8,24 +8,25 @@ ReductionSum::ReductionSum(Dimension* InputDim)
 
     this -> InputDim = InputDim;
 
+    /* WARNING: This is only the expected output dimension after execution. */
     this -> OutputDim = Dimension{
-        .Height = InputDim -> Depth,
-        .Width = (int)ceil((double)InputDim -> Height * InputDim -> Width / (2 * BLOCK_SIZE)),
-        1
-    };
+                            .Height = 1,
+                            .Width = 1,
+                            InputDim -> Depth
+                        };
 
     this -> Output = new Matrix(
-                        this -> OutputDim.Height,
-                        this -> OutputDim.Width,
-                        this -> OutputDim.Depth,
+                        InputDim -> Depth,
+                        (int) ceil((double)InputDim -> Height * InputDim -> Width / (2 * BLOCK_SIZE)),
+                        1,
                         NULL,
                         DefineOnDevice
                     );
 
     this -> TransitionMatrix = new Matrix(
-                                    this -> OutputDim.Height,
-                                    InputDim -> Height * InputDim -> Width,
-                                    this -> OutputDim.Depth,
+                                    this -> InputDim -> Depth,
+                                    this -> InputDim -> Height * this -> InputDim -> Width,
+                                    1,
                                     NULL,
                                     DefineOnDevice
                                 );
@@ -33,15 +34,22 @@ ReductionSum::ReductionSum(Dimension* InputDim)
 }
 
 
+Dimension* ReductionSum::RS_GetOutputDim(){
+
+    return &(this -> OutputDim);
+
+}
+
+
 void ReductionSum:: ResetDims(){
 
-    this -> Output -> height = this -> OutputDim.Height;
-    this -> Output -> width = this -> OutputDim.Width;
-    this -> Output -> depth = this -> OutputDim.Depth;
+    this -> Output -> height = this -> InputDim -> Depth,
+    this -> Output -> width = (int) ceil((double) (this -> InputDim -> Height * this -> InputDim -> Width) / (2 * BLOCK_SIZE)),
+    this -> Output -> depth = 1;
 
-    this -> TransitionMatrix -> height = this -> OutputDim.Height;
-    this -> TransitionMatrix -> width = InputDim -> Height * InputDim -> Width;
-    this -> TransitionMatrix -> depth = this -> OutputDim.Depth;
+    this -> TransitionMatrix -> height = this -> InputDim -> Depth;
+    this -> TransitionMatrix -> width = this -> InputDim -> Height * this -> InputDim -> Width;
+    this -> TransitionMatrix -> depth = 1;
 
 }
 
@@ -63,7 +71,7 @@ Matrix * ReductionSum:: operator()(Matrix* D_input)
 
     this -> ResetDims();
 
-    size_t size = D_input -> depth * D_input -> height * D_input -> width * sizeof(float);
+    size_t size = this -> TransitionMatrix -> depth * this -> TransitionMatrix -> height * this -> TransitionMatrix -> width * sizeof(float);
 
     cudaMemcpy(this -> TransitionMatrix -> elements, D_input -> elements, size, cudaMemcpyDeviceToDevice);
 
@@ -150,5 +158,15 @@ Matrix * ReductionSum:: operator()(Matrix* D_input)
 
     );
 
+
+    // Warning: Remember to pre-process Result_Mean matrix to match 1 x 1 x C as it's
+    // the input in this case to the next Conv2d.
+    this -> Output -> height = 1;
+    this -> Output -> width = 1;
+    this -> Output -> depth = D_input -> depth;
+
+
     return this -> Output;
+
+
 }

@@ -38,8 +38,7 @@ public:
 
     Matrix* operator()(Matrix* D_input);
     Matrix* MBConv_SKIPID(Matrix *D_Input);
-    void MBConv_InitializeConvLayer(const ConvDetails *Conv);
-    void MBConv_InitializeBNLayer(const BatchNorm_Weights *BN);
+    Dimension* MBConv_GetOutputDim();
 
 
     std::vector<IBasicLayer*> layers;
@@ -47,5 +46,6 @@ public:
 
     const MBConv_Abstraction *MBConvDetails;
     Matrix* Output;
+    Dimension OutputDim;
 
 };

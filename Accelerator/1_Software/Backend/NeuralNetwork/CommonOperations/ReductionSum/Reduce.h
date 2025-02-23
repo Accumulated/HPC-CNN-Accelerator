@@ -16,6 +16,7 @@ public:
     Dimension OutputDim;
 
     Matrix* operator()(Matrix* D_Input);
+    Dimension* RS_GetOutputDim();
     void ResetDims();
 
 };

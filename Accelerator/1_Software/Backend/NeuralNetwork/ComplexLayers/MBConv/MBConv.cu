@@ -9,6 +9,9 @@
 
 MBConv:: MBConv(const MBConv_Abstraction* MBConvDetails, Dimension* InputDim): MBConvDetails(MBConvDetails){
 
+
+  Dimension* MovingDimension = InputDim;
+
   if(MBConvDetails -> Expansion.Conv.ConvWeights){
 
     Conv2d *Conv1 = new Conv2d(
@@ -17,10 +20,13 @@ MBConv:: MBConv(const MBConv_Abstraction* MBConvDetails, Dimension* InputDim): M
       0,                                                /*padding*/
       NO_ACTIVATION,                                    /*ActivationTypes*/
       &(MBConvDetails -> Expansion.Conv),                /*ConvDetails*/
-      InputDim
+      MovingDimension
     );
 
     layers.push_back(Conv1);
+
+    /* Get the expected output dimension from this layer*/
+    MovingDimension = Conv1 -> Conv2d_GetOutputDim();
 
   }
 
@@ -29,13 +35,16 @@ MBConv:: MBConv(const MBConv_Abstraction* MBConvDetails, Dimension* InputDim): M
      MBConvDetails -> Expansion.BatchNormDetails.Weights &&
      MBConvDetails -> Expansion.BatchNormDetails.Bias){
 
-       BatchNorm *BN1 = new BatchNorm(
-          &(MBConvDetails -> Expansion.BatchNormDetails),  /*BatchNormDetails*/
-          SWISH_ACTIVATION,                                 /*activation*/
-          InputDim
-        );
+      BatchNorm *BN1 = new BatchNorm(
+        &(MBConvDetails -> Expansion.BatchNormDetails),  /*BatchNormDetails*/
+        SWISH_ACTIVATION,                                 /*activation*/
+        MovingDimension
+      );
 
-       layers.push_back(BN1);
+      layers.push_back(BN1);
+
+      /* Get the expected output dimension from this layer*/
+      MovingDimension = BN1 -> BN_GetOutputDim();
 
   }
 
@@ -44,14 +53,17 @@ MBConv:: MBConv(const MBConv_Abstraction* MBConvDetails, Dimension* InputDim): M
 
     Conv2d *Conv2 = new Conv2d(
                           CONV_DW,                                          /*ConvType*/
-                          1,                                                /*stride*/
-                          0,                                                /*padding*/
+                          MBConvDetails -> Stride,                          /*stride*/
+                          MBConvDetails -> Padding,                         /*padding*/
                           NO_ACTIVATION,                                    /*ActivationTypes*/
-                          &(MBConvDetails -> DepthWise.Conv),                /*ConvDetails*/
-                          InputDim
+                          &(MBConvDetails -> DepthWise.Conv),               /*ConvDetails*/
+                          MovingDimension
                       );
 
     layers.push_back(Conv2);
+
+    /* Get the expected output dimension from this layer*/
+    MovingDimension = Conv2 -> Conv2d_GetOutputDim();
 
   }
 
@@ -63,11 +75,13 @@ MBConv:: MBConv(const MBConv_Abstraction* MBConvDetails, Dimension* InputDim): M
        BatchNorm *BN2 = new BatchNorm(
                           &(MBConvDetails -> DepthWise.BatchNormDetails),  /*BatchNormDetails*/
                           SWISH_ACTIVATION,                              /*activation*/
-                          InputDim
+                          MovingDimension
                         );
 
        layers.push_back(BN2);
 
+      /* Get the expected output dimension from this layer*/
+      MovingDimension = BN2 -> BN_GetOutputDim();
   }
 
 
@@ -76,23 +90,29 @@ MBConv:: MBConv(const MBConv_Abstraction* MBConvDetails, Dimension* InputDim): M
       MBConvDetails -> SQueezeExcite.SQ2.Conv.ConvWeights){
 
     /* Define a Squeeze and Excite layer for this MBConv block. */
-    SQueeze *SE = new SQueeze(&(MBConvDetails -> SQueezeExcite), InputDim);
+    SQueeze *SE = new SQueeze(&(MBConvDetails -> SQueezeExcite), MovingDimension);
 
     layers.push_back(SE);
+
+    MovingDimension = SE -> SQ_GetOutputDim();
   }
 
   if(MBConvDetails -> Project.Conv.ConvWeights){
 
     Conv2d *Conv3 = new Conv2d(
-                      CONV_DW,                                          /*ConvType*/
+                      CONV_1x1,                                          /*ConvType*/
                       1,                                                /*stride*/
                       0,                                                /*padding*/
                       NO_ACTIVATION,                                    /*ActivationTypes*/
                       &(MBConvDetails -> Project.Conv),                  /*ConvDetails*/
-                      InputDim
+                      MovingDimension
                     );
 
     layers.push_back(Conv3);
+
+    /* Get the expected output dimension from this layer*/
+    MovingDimension = Conv3 -> Conv2d_GetOutputDim();
+
   }
 
   if(MBConvDetails -> Project.BatchNormDetails.Mean &&
@@ -103,14 +123,30 @@ MBConv:: MBConv(const MBConv_Abstraction* MBConvDetails, Dimension* InputDim): M
       BatchNorm *BN3 = new BatchNorm(
         &(MBConvDetails -> Project.BatchNormDetails),  /*BatchNormDetails*/
         SWISH_ACTIVATION,                              /*activation*/
-        InputDim
+        MovingDimension
       );
 
       layers.push_back(BN3);
+      MovingDimension = BN3 -> BN_GetOutputDim();
 
   }
 
+  this -> OutputDim = Dimension{
+    .Height = MovingDimension -> Height,
+    .Width = MovingDimension -> Width,
+    .Depth = MovingDimension -> Depth,
+  };
+
+
 }
+
+
+Dimension* MBConv::MBConv_GetOutputDim(){
+
+  return &(this -> OutputDim);
+
+}
+
 
 MBConv::~MBConv(){
 

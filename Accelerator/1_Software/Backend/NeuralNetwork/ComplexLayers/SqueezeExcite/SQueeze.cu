@@ -7,8 +7,11 @@
 
 SQueeze::SQueeze(const MBConv_SqueezeExcite* Details, Dimension* InputDim): Details(Details), InputDim(InputDim){
 
+  Dimension* MovingDimension = InputDim;
 
-  ReductionSum *Reduction = new ReductionSum(InputDim);
+  ReductionSum *Reduction = new ReductionSum(MovingDimension);
+
+  MovingDimension = Reduction -> RS_GetOutputDim();
 
   Conv2d *Conv1 = new Conv2d(
                     CONV_1x1,                              /*ConvType*/
@@ -16,8 +19,10 @@ SQueeze::SQueeze(const MBConv_SqueezeExcite* Details, Dimension* InputDim): Deta
                     0,                                     /*padding*/
                     SWISH_ACTIVATION,                      /*ActivationTypes*/
                     &(Details -> SQ1.Conv),                /*ConvDetails*/
-                    InputDim
+                    MovingDimension
                   );
+
+  MovingDimension = Conv1 -> Conv2d_GetOutputDim();
 
   Conv2d *Conv2 = new Conv2d(
                     CONV_1x1,                              /*ConvType*/
@@ -25,16 +30,29 @@ SQueeze::SQueeze(const MBConv_SqueezeExcite* Details, Dimension* InputDim): Deta
                     0,                                     /*padding*/
                     SIGMOID_ACTIVATION,                    /*ActivationTypes*/
                     &(Details -> SQ2.Conv),                /*ConvDetails*/
-                    InputDim
+                    MovingDimension
                   );
 
+  MovingDimension = Conv2 -> Conv2d_GetOutputDim();
 
   layers.push_back(Reduction);
   layers.push_back(Conv1);
   layers.push_back(Conv2);
 
+  this -> OutputDim = Dimension{
+    .Height = MovingDimension->Height,
+    .Width = MovingDimension->Width,
+    .Depth = MovingDimension->Depth,
+  };
+
 }
 
+
+Dimension* SQueeze::SQ_GetOutputDim(){
+
+  return &(this -> OutputDim);
+
+}
 
 SQueeze::~SQueeze()
 {

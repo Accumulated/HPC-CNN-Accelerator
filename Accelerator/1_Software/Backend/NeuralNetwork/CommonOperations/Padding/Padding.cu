@@ -1,36 +1,40 @@
 #include "CommonInclude.h"
+#include "IBasicLayer.h"
 #include "Padding.h"
 
 
-Padding::Padding()
-{
-/*
-      Set_DeviceMatrix(Original_Matrix_Before->height + 2 * Boundary,
-                        Original_Matrix_Before->width + 2 * Boundary,
-                        Original_Matrix_Before->depth,
-                        padded_Matrix,
-                        "Padded Matrix is allocated in device memory.");
+PaddingLayer::PaddingLayer(Dimension *InputDim, int Boundary){
 
 
+    this -> Boundary = Boundary;
 
-*/
+
+    this -> Output = new Matrix(
+                              InputDim -> Height + 2 * Boundary,
+                              InputDim -> Width + 2 * Boundary,
+                              InputDim -> Depth,
+                              NULL,
+                              DefineOnDevice
+                        );
+
+
 }
 
 
-Padding::~Padding()
+PaddingLayer::~PaddingLayer()
 {
+
+      delete this -> Output;
 
 }
 
-Matrix* Padding::operator()(Matrix* D_Input, int Boundary){
+
+Matrix* PaddingLayer::operator()(Matrix* D_Input){
     /*
       Note: Matrix coming is a device elemente matrix;
             Original Matrix is a Device input that needs padding
             padded_Matrix is the return of this function;
 
-      Warning: Padded_Matrix has a different size than the Original
-                non padded matrix and it's not allocated in device yet.
-                The allocateion is done inside this function.
     */
 
 
@@ -55,6 +59,8 @@ Matrix* Padding::operator()(Matrix* D_Input, int Boundary){
             D_Input -> height,
             D_Input -> width,
             D_Input -> depth,
-            Boundary
+            this -> Boundary
       );
+
+      return this -> Output;
 }

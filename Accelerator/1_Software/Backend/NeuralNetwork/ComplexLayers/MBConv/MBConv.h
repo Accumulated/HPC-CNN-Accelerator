@@ -30,18 +30,21 @@ class MBConv: public IBasicLayer{
 
 public:
 
-    MBConv(const MBConv_Abstraction* MBConvDetails);
+    MBConv(const MBConv_Abstraction* MBConvDetails, Dimension* InputDim);
 
     ~MBConv();
 
+
     Matrix* operator()(Matrix* D_input);
     Matrix* MBConv_SKIPID(Matrix *D_Input);
+    void MBConv_InitializeConvLayer(const ConvDetails *Conv);
+    void MBConv_InitializeBNLayer(const BatchNorm_Weights *BN);
 
 
     std::vector<IBasicLayer*> layers;
 
 
-    const MBConv_Abstraction *MBConvDetails = nullptr;
+    const MBConv_Abstraction *MBConvDetails;
     Matrix* Output;
 
 };

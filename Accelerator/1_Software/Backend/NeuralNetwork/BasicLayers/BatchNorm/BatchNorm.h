@@ -15,13 +15,11 @@ public:
     Matrix *weights;
     Matrix *bias;
     ActivationTypes activation;
+    Dimension* InputDim;
+    Dimension OutputDim;
 
-    BatchNorm(  float* mean,
-                float* variance,
-                float* weights,
-                float* bias,
-                ActivationTypes activation
-            );
+
+    BatchNorm(const BatchNorm_Weights* Details, ActivationTypes activation, Dimension* InputDim);
 
     Matrix* operator()(Matrix *D_input);
 

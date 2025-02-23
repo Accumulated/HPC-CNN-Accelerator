@@ -1,10 +1,50 @@
 #include "CommonInclude.h"
+#include "IBasicLayer.h"
 #include "Reduce.h"
 
-ReductionSum::ReductionSum()
+
+ReductionSum::ReductionSum(Dimension* InputDim)
 {
 
+    this -> InputDim = InputDim;
+
+    this -> OutputDim = Dimension{
+        .Height = InputDim -> Depth,
+        .Width = (int)ceil((double)InputDim -> Height * InputDim -> Width / (2 * BLOCK_SIZE)),
+        1
+    };
+
+    this -> Output = new Matrix(
+                        this -> OutputDim.Height,
+                        this -> OutputDim.Width,
+                        this -> OutputDim.Depth,
+                        NULL,
+                        DefineOnDevice
+                    );
+
+    this -> TransitionMatrix = new Matrix(
+                                    this -> OutputDim.Height,
+                                    InputDim -> Height * InputDim -> Width,
+                                    this -> OutputDim.Depth,
+                                    NULL,
+                                    DefineOnDevice
+                                );
+
 }
+
+
+void ReductionSum:: ResetDims(){
+
+    this -> Output -> height = this -> OutputDim.Height;
+    this -> Output -> width = this -> OutputDim.Width;
+    this -> Output -> depth = this -> OutputDim.Depth;
+
+    this -> TransitionMatrix -> height = this -> OutputDim.Height;
+    this -> TransitionMatrix -> width = InputDim -> Height * InputDim -> Width;
+    this -> TransitionMatrix -> depth = this -> OutputDim.Depth;
+
+}
+
 
 ReductionSum::~ReductionSum(){
 
@@ -21,7 +61,9 @@ Matrix * ReductionSum:: operator()(Matrix* D_input)
 
     */
 
-    size_t size;
+    this -> ResetDims();
+
+    size_t size = D_input -> depth * D_input -> height * D_input -> width * sizeof(float);
 
     cudaMemcpy(this -> TransitionMatrix -> elements, D_input -> elements, size, cudaMemcpyDeviceToDevice);
 
@@ -32,8 +74,10 @@ Matrix * ReductionSum:: operator()(Matrix* D_input)
     int nby = (int)ceil((float)(this -> TransitionMatrix -> height));
     int nbz = 1;
 
+
     if (nbx == 0) nbx = 1;
     if (nby == 0) nby = 1;
+
 
     // For loop is held to maintain huge number of summations needed
     for (int i = 0; this -> TransitionMatrix -> width != 1; i++)

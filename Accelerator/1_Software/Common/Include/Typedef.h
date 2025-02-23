@@ -1,5 +1,6 @@
 #pragma once
 
+
 typedef enum {
     CONV_1x1 = 0,
     CONV_KxK = 1,
@@ -18,6 +19,7 @@ typedef enum{
     SKIP_SUPPORTED = 1
 }SkipID;
 
+
 typedef enum {
     NO_ACTIVATION = 0,
     SWISH_ACTIVATION = 1,
@@ -33,11 +35,12 @@ typedef enum {
 
 
 typedef struct BatchNorm_Weights{
-    float* Mean;
-    float* Variance;
-    float* Weights;
-    float* Bias;
+    const float* Mean;
+    const float* Variance;
+    const float* Weights;
+    const float* Bias;
 }BatchNorm_Weights;
+
 
 typedef struct ConvDetails{
 
@@ -50,6 +53,7 @@ typedef struct ConvDetails{
 
 }ConvDetails;
 
+
 typedef struct Basiclayer{
 
     ConvDetails Conv;
@@ -57,6 +61,12 @@ typedef struct Basiclayer{
 
 }Basiclayer;
 
+
+typedef struct Dimension{
+    int Height;
+    int Width;
+    int Depth;
+}Dimension;
 
 
 #define Tile_GEMM                   16

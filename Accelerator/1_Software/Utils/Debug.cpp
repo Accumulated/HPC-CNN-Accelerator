@@ -4,7 +4,7 @@
 
 void show_me_enhanced_from_devince(Matrix *ptr, const char *notification)
 {
-    Matrix H_OUT;
+    // Matrix H_OUT;
 /*
     set_allocate_Host(&H_OUT, ptr -> height, ptr -> width, ptr -> depth);
 

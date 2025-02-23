@@ -49,5 +49,5 @@ Matrix* InputUnrolling:: operator()(Matrix* Device_Input, int ExpectedConv_Outpu
 
   );
 
-
+  return this -> Output;
 }

@@ -1,25 +1,85 @@
 #include "CommonInclude.h"
+#include "Padding.h"
 #include "Conv2d.h"
 
+using namespace std;
 
 Conv2d:: Conv2d(SupportConvolutionOPs ConvType,
-                int kernel_size,
                 int stride,
                 int padding,
                 ActivationTypes activation_type,
-                float* weight,
-                float* bias):
+                const ConvDetails * Details,
+                Dimension* InputDim):
 
             // Initialize the layer variables
             ConvType(ConvType),
-            kernel_size(kernel_size),
             stride(stride),
             padding(padding),
-            activation_type(activation_type){
+            activation_type(activation_type),
+            InputDim(InputDim){
 
-    /* Missing output allocation and preperation */
-    this -> weight = new Matrix();
-    this -> bias = new Matrix();
+    if(Details -> ConvWeights){
+
+        /* Missing output allocation and preperation */
+        this -> weight = new Matrix(Details -> FilterHeight,
+                                    Details -> FilterWidth,
+                                    Details -> FilterWidth,
+                                    Details -> ConvWeights,
+                                    DefineOnDevice);
+    }
+
+    if(Details -> Bias){
+
+        this -> bias = new Matrix(sizeof(Details -> Bias) / sizeof(float),
+                                    1,
+                                    1,
+                                    Details -> Bias, DefineOnDevice);
+    }
+
+    // Height and width changes, Only depth remains still
+    int OutputHeight = (InputDim -> Height + 2 * padding - Details -> FilterHeight)/stride + 1;
+    int OutputWidth = (InputDim -> Width + 2 * padding - Details -> FilterWidth)/stride + 1;
+    int OutputDepth = 0;
+
+    if(ConvType == CONV_1x1 || ConvType == CONV_KxK){
+
+        // Output depth is the number of filters available (Density)
+        OutputDepth = Details -> FilterDensity;
+    }
+
+    else if(ConvType == CONV_DW){
+
+        // Output depth is the same as the input depth
+        OutputDepth = InputDim -> Depth;
+    }
+
+    else{
+
+        std::cout << "Unsupported Convolution Operation" << std::endl;
+    }
+
+    if(padding){
+        this -> pad = new PaddingLayer(InputDim, this -> padding);
+    }
+    this -> OutputDim = Dimension{
+                            .Height = OutputHeight,
+                            .Width = OutputWidth,
+                            .Depth = OutputDepth
+                        };
+
+    this -> Output = new Matrix(OutputHeight,
+                                OutputWidth,
+                                OutputDepth,
+                                NULL,
+                                DefineOnDevice);
+
+}
+
+
+Dimension* Conv2d:: Conv2d_GetOutputDim() {
+
+    return &(this -> OutputDim);
+
 }
 
 
@@ -89,6 +149,12 @@ Matrix* Conv2d::operator()(Matrix *D_input) {
     else if (ConvType == CONV_DW)
     {
 
+        Matrix *ptr = D_input;
+
+        if(this -> padding){
+            ptr = (*this -> pad)(D_input);
+        }
+
         int nbx = (int)ceil((float)(this -> Output -> width) / Tile_GEMM);
         int nby = (int)ceil((float)(this -> Output -> height) / Tile_GEMM);
         int nbz = this -> Output -> depth;
@@ -103,7 +169,7 @@ Matrix* Conv2d::operator()(Matrix *D_input) {
 
         DWConv2d_kernel<<<dim_Grid2, dim_Block2>>> (
 
-            D_input -> elements, D_input -> height, D_input -> width, D_input -> depth,
+            ptr -> elements, ptr -> height, ptr -> width, ptr -> depth,
 
             this -> weight -> elements, this -> weight -> height, this -> weight -> width, this -> weight -> depth,
 

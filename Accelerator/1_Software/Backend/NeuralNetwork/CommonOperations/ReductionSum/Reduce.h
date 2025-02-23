@@ -1,6 +1,6 @@
 #pragma once
 
-class ReductionSum{
+class ReductionSum: public IBasicLayer{
 
 public:
 
@@ -9,9 +9,13 @@ public:
     /* This is used for large arrays only if needed */
     Matrix *TransitionMatrix;
 
-    ReductionSum();
+    ReductionSum(Dimension* InputDim);
     ~ReductionSum();
 
+    Dimension* InputDim;
+    Dimension OutputDim;
+
     Matrix* operator()(Matrix* D_Input);
+    void ResetDims();
 
 };

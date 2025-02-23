@@ -22,8 +22,8 @@ MBConv_Abstraction MBConv6_1_Layers{
         .BatchNormDetails{
             .Mean = MBConv6_1_expansion_conv_BN_mean,
             .Variance = MBConv6_1_expansion_conv_BN_variance,
-            .bias = MBConv6_1_expansion_conv_BN_bias,
-            .weights = MBConv6_1_expansion_conv_BN_weights
+            .Weights = MBConv6_1_expansion_conv_BN_weights,
+            .Bias = MBConv6_1_expansion_conv_BN_bias,
         }
     },
 
@@ -40,8 +40,8 @@ MBConv_Abstraction MBConv6_1_Layers{
         .BatchNormDetails{
             .Mean = MBConv6_1_depthwise_conv_BN_mean,
             .Variance = MBConv6_1_depthwise_conv_BN_variance,
-            .bias = MBConv6_1_depthwise_conv_BN_bias,
-            .weights = MBConv6_1_depthwise_conv_BN_weights
+            .Weights = MBConv6_1_depthwise_conv_BN_weights,
+            .Bias = MBConv6_1_depthwise_conv_BN_bias,
         }
     },
 
@@ -58,8 +58,8 @@ MBConv_Abstraction MBConv6_1_Layers{
         .BatchNormDetails{
             .Mean = MBConv6_1_project_conv_BN_mean,
             .Variance = MBConv6_1_project_conv_BN_variance,
-            .bias = MBConv6_1_project_conv_BN_bias,
-            .weights = MBConv6_1_project_conv_BN_weights
+            .Weights = MBConv6_1_project_conv_BN_weights,
+            .Bias = MBConv6_1_project_conv_BN_bias,
         }
     },
 
@@ -77,8 +77,8 @@ MBConv_Abstraction MBConv6_1_Layers{
             .BatchNormDetails{
                 .Mean = nullptr,
                 .Variance = nullptr,
-                .bias = nullptr,
-                .weights = nullptr
+                .Weights = nullptr,
+                .Bias = nullptr,
             }
         },
         .SQ2{
@@ -94,8 +94,8 @@ MBConv_Abstraction MBConv6_1_Layers{
             .BatchNormDetails{
                 .Mean = nullptr,
                 .Variance = nullptr,
-                .bias = nullptr,
-                .weights = nullptr
+                .Weights = nullptr,
+                .Bias = nullptr,
             }
         }
     },

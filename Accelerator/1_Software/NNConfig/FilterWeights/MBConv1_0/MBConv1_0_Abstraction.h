@@ -23,8 +23,8 @@ MBConv_Abstraction MBConv1_0_Layers{
         .BatchNormDetails{
             .Mean = MBConv1_0_depthwise_conv_BN_mean,
             .Variance = MBConv1_0_depthwise_conv_BN_variance,
-            .bias = MBConv1_0_depthwise_conv_BN_bias,
-            .weights = MBConv1_0_depthwise_conv_BN_weights
+            .Bias = MBConv1_0_depthwise_conv_BN_bias,
+            .Weights = MBConv1_0_depthwise_conv_BN_weights
         }
 
     },
@@ -44,8 +44,8 @@ MBConv_Abstraction MBConv1_0_Layers{
         .BatchNormDetails{
             .Mean = MBConv1_0_project_conv_BN_mean,
             .Variance = MBConv1_0_project_conv_BN_variance,
-            .bias = MBConv1_0_project_conv_BN_bias,
-            .weights = MBConv1_0_project_conv_BN_weights
+            .Bias = MBConv1_0_project_conv_BN_bias,
+            .Weights = MBConv1_0_project_conv_BN_weights
         }
 
     },
@@ -54,7 +54,7 @@ MBConv_Abstraction MBConv1_0_Layers{
 
         .Conv{
             /* This sub-layer doesn't exist in this MBConv layer */
-            .ConvWeights = nullptr,
+            .ConvWeights = nullptr,,
             .Bias = nullptr,
             .FilterDensity = 0,
             .FilterHeight = 0,
@@ -64,8 +64,8 @@ MBConv_Abstraction MBConv1_0_Layers{
         .BatchNormDetails{
             .Mean = nullptr,
             .Variance = nullptr,
-            .bias = nullptr,
-            .weights = nullptr
+            .Bias = nullptr,
+            .Weights = nullptr,
         }
 
     },
@@ -87,8 +87,8 @@ MBConv_Abstraction MBConv1_0_Layers{
             .BatchNormDetails{
                 .Mean = nullptr,
                 .Variance = nullptr,
-                .bias = nullptr,
-                .weights = nullptr
+                .Bias = nullptr,
+                .Weights = nullptr,
             }
         },
         .SQ2{
@@ -106,8 +106,8 @@ MBConv_Abstraction MBConv1_0_Layers{
             .BatchNormDetails{
                 .Mean = nullptr,
                 .Variance = nullptr,
-                .bias = nullptr,
-                .weights = nullptr
+                .Bias = nullptr,
+                .Weights = nullptr,
             }
         },
     },

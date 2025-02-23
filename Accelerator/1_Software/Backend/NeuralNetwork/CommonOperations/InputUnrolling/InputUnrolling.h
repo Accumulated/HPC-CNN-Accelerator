@@ -6,14 +6,20 @@ class InputUnrolling{
 
 public:
 
-    InputUnrolling(int FilterSize, int stride);
+    InputUnrolling(Dimension* InputDim, const ConvDetails* Conv_Details, int padding, int stride);
 
     ~InputUnrolling();
 
-    Matrix* operator()(Matrix* Device_Input, int ExpectedConv_OutputHeight, int ExpectedConv_OutputWidth);
+    Matrix* operator()(Matrix* Device_Input);
+    Matrix* operator()();
 
-    int FilterSize = 0;
-    int Stride = 0;
-    Matrix* Output;
+    Matrix* FilterUnrolled;
+    Matrix* InputUnrolled;
+    Dimension OutputDim;
+    Dimension ConvolutionOutputDim;
+    Dimension* InputDim;
+    int padding;
+    int stride;
+    const ConvDetails* Conv_Details;
 
 };

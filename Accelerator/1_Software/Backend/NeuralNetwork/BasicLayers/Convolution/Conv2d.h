@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Padding.h"
+#include "InputUnrolling.h"
 #include "IBasicLayer.h"
 
 class Conv2d: public IBasicLayer {
@@ -30,6 +31,6 @@ public:
     Matrix* bias;
     Matrix* Output;
     PaddingLayer* pad;
+    InputUnrolling* Conv_InputUnrolling;
     SupportConvolutionOPs ConvType;
-
 };

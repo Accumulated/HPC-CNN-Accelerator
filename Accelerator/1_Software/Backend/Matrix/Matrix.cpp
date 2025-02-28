@@ -174,3 +174,46 @@ void Matrix:: Matrix_SetDimensions(int height, int width, int depth) {
 
     std:: cout << "Changed matrix dimension to: " << height << "x" << width << "x" << depth << std::endl;
 }
+
+
+void Matrix:: Matrix_DumpDeviceMemory(){
+
+    size_t size = this -> density * this -> depth * this -> height * this -> width * sizeof(float);
+    float *ptr = new float[size];
+
+	cudaError err = cudaMemcpy(ptr, this -> elements, size, cudaMemcpyDeviceToHost);
+
+    show_me_enhanced(ptr, "Memory dump");
+
+    delete[] ptr;
+
+}
+
+
+void Matrix:: show_me_enhanced(float* ptr, const char* Name)
+{
+
+    setvbuf(stdout, NULL, _IOLBF, 0);
+
+    std::cout << "height = " << this->height << " width = " <<  this->width <<  " depth = " << this->depth << std::endl;
+
+    std::cout << "{\n";
+
+    for (int i = 0; i < this -> height * this -> width * this -> depth; i++)
+    {
+        if (i % this->width == 0 && i >= this->width)
+            std::cout << "\n";
+
+        if (i % (this->width * this->height) == 0 && i >= (this->width * this->height));
+
+        printf("%.8f", ptr[i]);
+        if (i + 1 == this->height * this->width * this->depth);
+        else
+            printf(", ");
+    }
+
+    std::cout << "} \n";
+    std::cout << "\n";
+
+    setvbuf(stdout, NULL, _IOLBF, 0);
+}

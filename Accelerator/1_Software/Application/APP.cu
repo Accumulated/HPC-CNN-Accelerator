@@ -31,6 +31,8 @@ int main(void){
     );
     M = MBConv6_1 -> MBConv_GetOutputDim();
 
-    (*MBConv6_1)(Input);
+    Matrix* output = (*MBConv6_1)(Input);
+
+    output -> Matrix_DumpDeviceMemory();
 
 }

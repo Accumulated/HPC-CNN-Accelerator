@@ -90,11 +90,11 @@ Matrix * SQueeze:: operator()(Matrix* D_input){
     "This can be later changed"
   */
 
-  Matrix *Result_Mean = layers[0] -> operator()(D_input);
+  Matrix *Result_Mean = (*(layers[0]))(D_input);
 
   // Step 2: pass the mean to the covolution, swish, convolution, sigmoid
-  Matrix *Result_Conv1 = layers[1] -> operator()(Result_Mean);
-  Matrix *Result_Conv2 = layers[2] -> operator()(Result_Conv1);
+  Matrix *Result_Conv1 = (*(layers[1]))(Result_Mean);
+  Matrix *Result_Conv2 = (*(layers[2]))(Result_Conv1);
 
 
   /* Redesign later */
@@ -124,5 +124,5 @@ Matrix * SQueeze:: operator()(Matrix* D_input){
   );
 
 
-  return Result_Conv2;
+  return D_input;
 }

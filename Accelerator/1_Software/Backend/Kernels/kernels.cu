@@ -395,8 +395,6 @@ __global__ void BatchNormKernel(float *InputMatrixElements, float *OutputMatrixE
     int index = depth * W1 * H1 + row * W1 + col;
     int index3 = depth;
 
-    float tmp = 0;
-
     if ((row < H1) && (col < W1) && (depth < D1))
     {
         OutputMatrixElements[index] = ((InputMatrixElements[index] - D_mean[index3]) / (sqrtf(D_variance[index3] + 0.001f))) * D_weight[index3]
@@ -406,12 +404,12 @@ __global__ void BatchNormKernel(float *InputMatrixElements, float *OutputMatrixE
 
           case SWISH_ACTIVATION:
               // Swish activation function
-              OutputMatrixElements[index] = tmp / (1.0f + expf(-1.0f * OutputMatrixElements[index]));
+              OutputMatrixElements[index] = OutputMatrixElements[index] / (1.0f + expf(-1.0f * OutputMatrixElements[index]));
               break;
 
           case SIGMOID_ACTIVATION:
               // Sigmoid activation function
-              OutputMatrixElements[index] = 1.0f / (1.0f + expf(-1.0f * tmp));
+              OutputMatrixElements[index] = 1.0f / (1.0f + expf(-1.0f * OutputMatrixElements[index]));
               break;
 
           default:

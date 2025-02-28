@@ -196,6 +196,7 @@ Matrix* MBConv:: operator()(Matrix* Input)
 
   for (auto layer : layers) {
     MBConvOut = (*layer)(MBConvOut);
+    std::cout << "Output dims: " << MBConvOut -> height << " x " << MBConvOut -> width <<  " x " << MBConvOut -> depth << std::endl;
   }
 
 
@@ -204,6 +205,8 @@ Matrix* MBConv:: operator()(Matrix* Input)
   {
     MBConvOut = MBConv_SKIPID(MBConvOut);
   }
+
+  MBConvOut->Matrix_DumpDeviceMemory();
 
   return MBConvOut;
 

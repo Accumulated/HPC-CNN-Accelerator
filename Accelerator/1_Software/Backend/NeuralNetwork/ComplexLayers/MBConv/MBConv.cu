@@ -123,7 +123,7 @@ MBConv:: MBConv(const MBConv_Abstraction* MBConvDetails, Dimension* InputDim): M
 
       BatchNorm *BN3 = new BatchNorm(
         &(MBConvDetails -> Project.BatchNormDetails),  /*BatchNormDetails*/
-        SWISH_ACTIVATION,                              /*activation*/
+        NO_ACTIVATION,                                 /*activation*/
         MovingDimension
       );
 
@@ -138,7 +138,12 @@ MBConv:: MBConv(const MBConv_Abstraction* MBConvDetails, Dimension* InputDim): M
     .Depth = MovingDimension -> Depth,
   };
 
-
+    this -> Output = new Matrix(
+      this -> OutputDim.Height,
+      this -> OutputDim.Width,
+      this -> OutputDim.Depth,
+      NULL,
+      DefineOnDevice);
 }
 
 

@@ -1,4 +1,8 @@
 #include "CommonInclude.h"
+#include <iostream>
+#include <fstream> // Add this line to include the fstream header
+#include <unistd.h> // Include this header for getcwd
+#include <limits.h> // Include this header for PATH_MAX
 
 using namespace std;
 
@@ -179,9 +183,14 @@ void Matrix:: Matrix_SetDimensions(int height, int width, int depth) {
 void Matrix:: Matrix_DumpDeviceMemory(){
 
     size_t size = this -> density * this -> depth * this -> height * this -> width * sizeof(float);
+    std::cout << "Density: " << this->density << ", Depth: " << this->depth << ", Height: " << this->height << ", Width: " << this->width << ", Size: " << size << std::endl;
+
     float *ptr = new float[size];
 
-	cudaError err = cudaMemcpy(ptr, this -> elements, size, cudaMemcpyDeviceToHost);
+    cudaError err = cudaMemcpy(ptr, this -> elements, size, cudaMemcpyDeviceToHost);
+    if (err != cudaSuccess) {
+        std::cerr << "cudaMemcpy failed: " << cudaGetErrorString(err) << std::endl;
+    }
 
     show_me_enhanced(ptr, "Memory dump");
 
@@ -192,28 +201,39 @@ void Matrix:: Matrix_DumpDeviceMemory(){
 
 void Matrix:: show_me_enhanced(float* ptr, const char* Name)
 {
+    // Get the current working directory
+    char cwd[PATH_MAX];
+    if (getcwd(cwd, sizeof(cwd)) != NULL) {
+        std::cout << "Current working directory: " << cwd << std::endl;
+    } else {
+        std::cerr << "getcwd() error" << std::endl;
+    }
 
-    setvbuf(stdout, NULL, _IOLBF, 0);
+    std::ofstream outfile("matrix_output.txt");
 
-    std::cout << "height = " << this->height << " width = " <<  this->width <<  " depth = " << this->depth << std::endl;
+    if (!outfile.is_open()) {
+        std::cerr << "Failed to open the file for writing." << std::endl;
+        return;
+    }
 
-    std::cout << "{\n";
+    outfile << "height = " << this->height << " width = " <<  this->width <<  " depth = " << this->depth << std::endl;
+
+    outfile << "{" << std::endl;
 
     for (int i = 0; i < this -> height * this -> width * this -> depth; i++)
     {
         if (i % this->width == 0 && i >= this->width)
-            std::cout << "\n";
+            outfile << std::endl;
 
         if (i % (this->width * this->height) == 0 && i >= (this->width * this->height));
-
-        printf("%.8f", ptr[i]);
+        float tmp = ptr[i];
+        outfile << tmp;
         if (i + 1 == this->height * this->width * this->depth);
         else
-            printf(", ");
+            outfile << ", ";
     }
 
-    std::cout << "} \n";
-    std::cout << "\n";
-
-    setvbuf(stdout, NULL, _IOLBF, 0);
+    outfile << "}" << std::endl;
+    outfile << std::endl;
+    outfile.close();
 }

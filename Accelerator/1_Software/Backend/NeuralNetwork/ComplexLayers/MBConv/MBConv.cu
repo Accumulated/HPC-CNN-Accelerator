@@ -138,12 +138,6 @@ MBConv:: MBConv(const MBConv_Abstraction* MBConvDetails, Dimension* InputDim): M
     .Depth = MovingDimension -> Depth,
   };
 
-    this -> Output = new Matrix(
-      this -> OutputDim.Height,
-      this -> OutputDim.Width,
-      this -> OutputDim.Depth,
-      NULL,
-      DefineOnDevice);
 }
 
 
@@ -164,11 +158,11 @@ MBConv::~MBConv(){
 }
 
 
-Matrix* MBConv:: MBConv_SKIPID(Matrix *D_Input)
+Matrix* MBConv:: MBConv_SKIPID(Matrix *Parent, Matrix* Child)
 {
-  int nbx = (int)ceil((float)(this -> Output -> width) / Tile_GEMM);
-  int nby = (int)ceil((float)(this -> Output -> height) / Tile_GEMM);
-  int nbz = this -> Output -> depth;
+  int nbx = (int)ceil((float)(Parent -> width) / Tile_GEMM);
+  int nby = (int)ceil((float)(Parent -> height) / Tile_GEMM);
+  int nbz = Parent -> depth;
 
   if (nbx == 0) nbx = 1;
 
@@ -181,15 +175,16 @@ Matrix* MBConv:: MBConv_SKIPID(Matrix *D_Input)
 
   Identity_Skip <<<dim_Grid2, dim_Block2 >>> (
 
-    this -> Output -> elements,
-    this -> Output -> height,
-    this -> Output -> width,
-    this -> Output -> depth,
-    D_Input -> elements
+    Parent -> elements,
+    Parent -> height,
+    Parent -> width,
+    Parent -> depth,
+    Child -> elements
 
   );
 
-  return this -> Output;
+  return Parent;
+
 }
 
 
@@ -208,7 +203,7 @@ Matrix* MBConv:: operator()(Matrix* Input)
   // Skip identity layer
   if(this -> MBConvDetails -> Skip)
   {
-    MBConvOut = MBConv_SKIPID(MBConvOut);
+    MBConvOut = MBConv_SKIPID(MBConvOut, Input);
   }
 
   MBConvOut->Matrix_DumpDeviceMemory();

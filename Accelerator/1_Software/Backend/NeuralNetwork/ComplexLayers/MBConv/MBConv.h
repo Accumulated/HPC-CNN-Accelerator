@@ -39,6 +39,7 @@ public:
     Matrix* operator()(Matrix* D_input);
     Matrix* MBConv_SKIPID(Matrix *D_Input);
     Dimension* MBConv_GetOutputDim();
+    Matrix* MBConv_SKIPID(Matrix *Parent, Matrix* Child);
 
 
     std::vector<IBasicLayer*> layers;

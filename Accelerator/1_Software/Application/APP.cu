@@ -1,4 +1,7 @@
 #include "CommonInclude.h"
+#include "Input_For_Stem_Layer.h"
+#include "Stem_Abstraction.h"
+#include "MBConv1_0_Abstraction.h"
 #include "MBConv6_1_Abstraction.h"
 #include "MBConv6_2Abstraction.h"
 #include "MBConv6_3Abstraction.h"
@@ -14,26 +17,34 @@
 #include "MBConv6_13Abstraction.h"
 #include "MBConv6_14Abstraction.h"
 #include "MBConv6_15Abstraction.h"
-#include "Input_Matrix.h"
+#include "HLayer_Abstraction.h"
 #include <vector>
 
 int main(void){
 
-
     Matrix *Input = new Matrix(
-        112, 127, 16, MBConv6_1_expansion_conv_conv2d_input_matrix, DefineOnDevice
+      224, 254, 3, Input_for_stem_conv, DefineOnDevice
     );
+    Dimension InputDim = Dimension{224, 254, 3};
 
-    Dimension InputDim = Dimension{112, 127, 16};
+    // Keep track of my moving dimension across the layers
     Dimension* M = &InputDim;
 
-    // Create a vector of MBConv objects
-    std::vector<MBConv*> MBConvLayers;
+    // Create a vector of any layer defined
+    std::vector<IBasicLayer*> NNModel;
+
+    SLayer* Startlayer = new SLayer(&StemLayer, M);
+    M = Startlayer -> SLayer_GetOutputDim();
+
+    NNModel.push_back(
+      Startlayer
+    );
 
     // Initialize the MBConv objects and add them to the vector
-    for (int i = 1; i <= 15; ++i) {
+    for (int i = 0; i <= 15; ++i) {
       MBConv* layer = nullptr;
       switch (i) {
+          case 0: layer = new MBConv(&MBConv1_0_Layers, M); break;
           case 1: layer = new MBConv(&MBConv6_1_Layers, M); break;
           case 2: layer = new MBConv(&MBConv6_2_Layers, M); break;
           case 3: layer = new MBConv(&MBConv6_3_Layers, M); break;
@@ -50,15 +61,15 @@ int main(void){
           case 14: layer = new MBConv(&MBConv6_14_Layers, M); break;
           case 15: layer = new MBConv(&MBConv6_15_Layers, M); break;
       }
-      MBConvLayers.push_back(layer);
+      NNModel.push_back(layer);
       M = layer->MBConv_GetOutputDim();
   }
 
   // Process the input through the MBConv layers
   Matrix* output = Input;
-  for (auto& layer : MBConvLayers) {
+  for (auto& layer : NNModel) {
     output = (*layer)(output);
-    output->Matrix_DumpDeviceMemory();
   }
+  output->Matrix_DumpDeviceMemory();
 
 }

@@ -7,6 +7,27 @@
 
 MBConv_Abstraction MBConv1_0_Layers{
 
+    .Expansion{
+
+        .Conv{
+            /* This sub-layer doesn't exist in this MBConv layer */
+            .ConvWeights = nullptr,
+            .Bias = nullptr,
+            .FilterDensity = 0,
+            .FilterHeight = 0,
+            .FilterWidth = 0,
+            .FilterDepth = 0,
+        },
+        .BatchNormDetails{
+            .Mean = nullptr,
+            .Variance = nullptr,
+            .Weights = nullptr,
+            .Bias = nullptr,
+            .size = 0,
+        }
+
+    },
+
     .DepthWise{
 
         .Conv{
@@ -23,8 +44,9 @@ MBConv_Abstraction MBConv1_0_Layers{
         .BatchNormDetails{
             .Mean = MBConv1_0_depthwise_conv_BN_mean,
             .Variance = MBConv1_0_depthwise_conv_BN_variance,
+            .Weights = MBConv1_0_depthwise_conv_BN_weights,
             .Bias = MBConv1_0_depthwise_conv_BN_bias,
-            .Weights = MBConv1_0_depthwise_conv_BN_weights
+            .size = 32,
         }
 
     },
@@ -44,31 +66,13 @@ MBConv_Abstraction MBConv1_0_Layers{
         .BatchNormDetails{
             .Mean = MBConv1_0_project_conv_BN_mean,
             .Variance = MBConv1_0_project_conv_BN_variance,
+            .Weights = MBConv1_0_project_conv_BN_weights,
             .Bias = MBConv1_0_project_conv_BN_bias,
-            .Weights = MBConv1_0_project_conv_BN_weights
-        }
-
-    },
-
-    .Expansion{
-
-        .Conv{
-            /* This sub-layer doesn't exist in this MBConv layer */
-            .ConvWeights = nullptr,,
-            .Bias = nullptr,
-            .FilterDensity = 0,
-            .FilterHeight = 0,
-            .FilterWidth = 0,
-            .FilterDepth = 0,
+            .size = 16,
         },
-        .BatchNormDetails{
-            .Mean = nullptr,
-            .Variance = nullptr,
-            .Bias = nullptr,
-            .Weights = nullptr,
-        }
 
     },
+
 
     .SQueezeExcite{
 
@@ -87,8 +91,8 @@ MBConv_Abstraction MBConv1_0_Layers{
             .BatchNormDetails{
                 .Mean = nullptr,
                 .Variance = nullptr,
-                .Bias = nullptr,
                 .Weights = nullptr,
+                .Bias = nullptr,
             }
         },
         .SQ2{
@@ -106,8 +110,8 @@ MBConv_Abstraction MBConv1_0_Layers{
             .BatchNormDetails{
                 .Mean = nullptr,
                 .Variance = nullptr,
-                .Bias = nullptr,
                 .Weights = nullptr,
+                .Bias = nullptr,
             }
         },
     },

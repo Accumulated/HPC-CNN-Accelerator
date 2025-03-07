@@ -65,6 +65,10 @@ int main(void){
       M = layer->MBConv_GetOutputDim();
   }
 
+  NNModel.push_back(
+    new HLayer(&HeadLayer, M)
+  );
+
   // Process the input through the MBConv layers
   Matrix* output = Input;
   for (auto& layer : NNModel) {

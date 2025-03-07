@@ -83,5 +83,11 @@ HLayer::~HLayer() {
 
 Matrix* HLayer:: operator()(Matrix* D_input){
 
-    return D_input;
+    Matrix *HOutput = D_input;
+
+    for (auto layer : this -> layers) {
+        HOutput = (*layer)(HOutput);
+    }
+
+    return HOutput;
 }

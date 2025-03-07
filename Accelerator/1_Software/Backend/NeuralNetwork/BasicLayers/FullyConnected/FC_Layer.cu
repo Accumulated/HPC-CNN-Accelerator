@@ -63,7 +63,7 @@ Matrix* FCLayer::operator()(Matrix* D_input){
         this -> weight -> elements, this -> weight -> height, this -> weight -> width, this -> weight -> depth,
         this -> Output -> elements, this -> Output -> height, this -> Output -> width, this -> Output -> depth,
         num_block_for_phases, activation_type,
-        BIASED, this -> bias
+        BIASED, this -> bias -> elements
     );
 
     this -> Output -> Matrix_DumpDeviceMemory();

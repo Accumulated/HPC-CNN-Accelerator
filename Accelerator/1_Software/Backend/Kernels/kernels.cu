@@ -240,6 +240,7 @@ __global__ void CastingDivision(float *A, int W1, float B)
     }
 }
 
+
 // Used with MBConv layers that has skip identity = true
 __global__ void Identity_Skip(float *A,  int H1, int W1, int D1,
                               float *B)
@@ -255,6 +256,15 @@ __global__ void Identity_Skip(float *A,  int H1, int W1, int D1,
         A[index] = A[index] + B[index];
     }
 }
+
+
+__global__ void MatrixAddKernel(float* A, float* B, int N) {
+  int idx = blockIdx.x * blockDim.x + threadIdx.x;
+  if (idx < N) {
+      A[idx] += B[idx];
+  }
+}
+
 
 __global__ void Complete_Padding_Process(float *output, int outputHeight, int outputWidth, int outputDepth,
                                          float *input, int inputHeight, int inputWidth, int inputDepth,

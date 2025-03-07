@@ -14,6 +14,9 @@ __global__ void INPUT_UNROLLING(int stride, int Filter_Height,
                                 int Output_Height, int Output_Width);
 
 
+__global__ void MatrixAddKernel(float* A, float* B, int N);
+
+
 __global__ void DWConv2d_kernel(float *Input, int H1, int W1, int D1,
                                 float *Filter, int H2, int W2, int D2,
                                 float *Output, int H3, int W3, int D3,

@@ -74,6 +74,7 @@ int main(void){
   for (auto& layer : NNModel) {
     output = (*layer)(output);
   }
+
   output->Matrix_DumpDeviceMemory();
 
 }

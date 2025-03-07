@@ -206,8 +206,6 @@ Matrix* MBConv:: operator()(Matrix* Input)
     MBConvOut = MBConv_SKIPID(MBConvOut, Input);
   }
 
-  MBConvOut->Matrix_DumpDeviceMemory();
-
   return MBConvOut;
 
 }

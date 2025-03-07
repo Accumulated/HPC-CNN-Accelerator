@@ -1,6 +1,6 @@
 
 // weight for stem layer has dimension of  torch.Size([3, 3, 32, 3])
-float Stem_conv2d_weights [ 3 * 3 * 3 * 32] =
+const float Stem_conv2d_weights [ 3 * 3 * 3 * 32] =
 {
 
 -0.44029024,     -0.29287776,      0.02766298 ,
@@ -422,7 +422,7 @@ float Stem_conv2d_weights [ 3 * 3 * 3 * 32] =
 
 // Parameters for BN in stem layer Weight shape =  torch.Size([32])
 
-float Stem_BN_weights [32] =
+const float Stem_BN_weights [32] =
 {
 	2.99857426,  4.84100056,  3.40824080,  0.44379863,  0.31269392,
 	3.99411488,  1.26977754,  2.09640050,  0.12123316,  7.02981615,
@@ -433,7 +433,7 @@ float Stem_BN_weights [32] =
 	1.58002293,  2.45503211
 };
 
-float Stem_BN_bias [32] =
+const float Stem_BN_bias [32] =
 {
 	-4.58293629, -8.64424992,  2.17235613,  1.40936625,  0.08615541,
 	2.49046898,  1.92653477, -2.66214252, -0.04731198,  1.83682621,
@@ -445,7 +445,7 @@ float Stem_BN_bias [32] =
 };
 
 
-float Stem_BN_mean [32] =
+const float Stem_BN_mean [32] =
 {
 	0.06770273,     -0.06226993,     -0.00300203,     -0.05056658,
 	0.11603921,     -0.00129268,     -0.00306592,      0.05207691,
@@ -458,7 +458,7 @@ float Stem_BN_mean [32] =
 };
 
 
-float Stem_BN_variance [32] =
+const float Stem_BN_variance [32] =
 {
 	10.23418808,  6.68839455,  2.41192412, 11.78972054, 25.23144341,
 	4.85536194,  2.51096368,  6.55377388,  5.09183931, 11.76653957,

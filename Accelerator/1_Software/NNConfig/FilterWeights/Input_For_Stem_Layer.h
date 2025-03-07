@@ -1,6 +1,6 @@
 // Input for stem_conv has a shape of torch.Size([1, 3, 224, 254])
 
-float Input_for_stem_conv [224 * 254 * 3 * 1]
+const float Input_for_stem_conv [224 * 254 * 3 * 1]
 {
 0.21106265,  0.10831413,  0.70768046,  2.11191010,  1.51254380,
 0.89605278,  1.18717360,  1.17004883,  0.99880129,  0.79330426,

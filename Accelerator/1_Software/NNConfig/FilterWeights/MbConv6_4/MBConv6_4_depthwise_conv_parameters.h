@@ -1,6 +1,6 @@
 
 // weight for Depthwise layer has dimension of torch.Size( 240, 1, 5, 5 )
-float MBConv6_4_depthwise_conv_conv2d_weights  [240 * 1 * 5 * 5]  =
+const float MBConv6_4_depthwise_conv_conv2d_weights  [240 * 1 * 5 * 5]  =
 {
 0.00006526,      0.03372177,     -0.04971780,     -0.02814023,
                 0.01680415 ,
@@ -2885,7 +2885,7 @@ float MBConv6_4_depthwise_conv_conv2d_weights  [240 * 1 * 5 * 5]  =
 // Parameters for BN in Depthwise layer
 // Weight shape =  torch.Size([240])
 
-float MBConv6_4_depthwise_conv_BN_weights  [240]  =
+const float MBConv6_4_depthwise_conv_BN_weights  [240]  =
 {
 2.12730861, 3.48326564, 0.57808006, 1.56729949, 2.65420771, 0.42078292,
         1.64292669, 2.41170192, 2.40877390, 1.00777555, 1.05433404, 1.52755117,
@@ -2929,7 +2929,7 @@ float MBConv6_4_depthwise_conv_BN_weights  [240]  =
         1.42607272, 0.97663653, 2.04621387, 0.72684044, 1.25796199, 1.36960506
 };
 
-float MBConv6_4_depthwise_conv_BN_bias  [240]  =
+const float MBConv6_4_depthwise_conv_BN_bias  [240]  =
 {
 		 -0.60765040,     -1.59592128,      0.94244605,     -1.68015563,
             -0.56024271,      1.07680738,     -0.78629500,     -0.66613829,
@@ -2994,7 +2994,7 @@ float MBConv6_4_depthwise_conv_BN_bias  [240]  =
 };
 
 
-float MBConv6_4_depthwise_conv_BN_mean  [240]  =
+const float MBConv6_4_depthwise_conv_BN_mean  [240]  =
 {
 	-0.17103735,     -1.44608247,      0.00299049,     -0.46931413,
             -0.00000574,     -0.20162942,     -0.00348742,     -0.83220339,
@@ -3059,7 +3059,7 @@ float MBConv6_4_depthwise_conv_BN_mean  [240]  =
 };
 
 
-float MBConv6_4_depthwise_conv_BN_variance  [240]  =
+const float MBConv6_4_depthwise_conv_BN_variance  [240]  =
 {
 0.59763020,     4.56491947,     0.06182950,     0.09771685,
             0.00462873,     0.34174582,     0.00712200,     2.18793511,

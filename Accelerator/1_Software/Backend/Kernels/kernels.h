@@ -1,16 +1,20 @@
 #ifndef KERNELS_H_
 #define KERNELS_H_
 
-#define THREAD_GRANULARITY_BLOCKS	2
 
 extern const int BLOCK_SIZE;
 extern int MBCONV1_0_flag;
+
+
 __global__ void CastingDivision(float *A, int W1, float B);
 
 __global__ void INPUT_UNROLLING(int stride, int Filter_Height,
                                 float *Input, int H1, int W1, int D1,
                                 float *X_unrolled, int H2, int W2, int D2,
                                 int Output_Height, int Output_Width);
+
+
+__global__ void MatrixAddKernel(float* A, float* B, int N);
 
 
 __global__ void DWConv2d_kernel(float *Input, int H1, int W1, int D1,
@@ -45,11 +49,11 @@ __global__ void ElementWiseSubtraction(float *A, int H1, int W1, int D1,
                                        float *mean);
 
 
-__global__ void BN_Kernel_Final_Layer(float *A, int H1, int W1, int D1,
-                                      float *D_mean, float *D_variance,
-                                      float *D_weight, float *D_bias,
-                                      int activate);
-
+__global__ void BatchNormKernel(float *InputMatrixElements, float *OutputMatrixElements,
+                                int H1, int W1, int D1,
+                                float *D_mean, float *D_variance,
+                                float *D_weight, float *D_bias,
+                                int activate);
 
 
 

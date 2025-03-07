@@ -71,5 +71,4 @@ typedef struct Dimension{
 
 
 #define Tile_GEMM                   16
-#define BIASED                      0
 #define THREAD_GRANULARITY_BLOCKS	2

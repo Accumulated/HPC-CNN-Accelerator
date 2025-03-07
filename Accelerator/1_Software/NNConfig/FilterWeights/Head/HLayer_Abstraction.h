@@ -31,10 +31,10 @@ HLayerAbstraction HeadLayer{
     .FCLayer {
         .ConvWeights = Head_linear_weights,
         .Bias = Head_linear_bias,
-        .FilterDensity = 1000,
-        .FilterHeight = 1,
-        .FilterWidth = 1,
-        .FilterDepth = 1280,
+        .FilterDensity = 1,
+        .FilterHeight = 1280,
+        .FilterWidth = 1000,
+        .FilterDepth = 1,
     },
 
 

@@ -4,7 +4,7 @@
 #include "Conv2d.h"
 #include "Reduce.h"
 #include "HLayer.h"
-
+#include "FC_Layer.h"
 
 
 HLayer:: HLayer(const HLayerAbstraction* HLayerDetails, Dimension* InputDim):
@@ -57,19 +57,16 @@ HLayer:: HLayer(const HLayerAbstraction* HLayerDetails, Dimension* InputDim):
 
     if(this -> HLayerDetails->FCLayer.ConvWeights){
 
-        Conv2d *Conv2 = new Conv2d(
-            CONV_1x1,                                         /*ConvType*/
-            1,                                                /*stride*/
-            0,                                                /*padding*/
-            NO_ACTIVATION,                                    /*ActivationTypes*/
-            &(HLayerDetails->FCLayer),                /*ConvDetails*/
-            MovingDimension
+        FCLayer *FullyConnected = new FCLayer(
+            &(HLayerDetails->FCLayer),
+            MovingDimension,                /*ConvDetails*/
+            NO_ACTIVATION
           );
 
-          layers.push_back(Conv2);
+          layers.push_back(FullyConnected);
 
           /* Get the expected output dimension from this layer*/
-          MovingDimension = Conv2 -> Conv2d_GetOutputDim();
+          MovingDimension = FullyConnected -> FCLayer_GetOutputDim();
 
     }
 

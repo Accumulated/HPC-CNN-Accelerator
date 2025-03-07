@@ -244,7 +244,7 @@ Matrix* Conv2d::operator()(Matrix *D_input) {
         // Get number of blocks
         int nbx = (int) ceil((float)(this -> Output -> width) / (THREAD_GRANULARITY_BLOCKS * Tile_GEMM));
         int nby = (int) ceil((float)(this -> Output -> height) / Tile_GEMM);
-        int num_block_for_phases = (int) ceil((float)(this -> weight -> width) / Tile_GEMM);
+        int num_block_for_phases = (int) ceil((float)(FilterUnrolled -> width) / Tile_GEMM);
 
         // Check for zero blocks to make sure code runs correctly
         if (nbx == 0) nbx = 1;
@@ -260,9 +260,9 @@ Matrix* Conv2d::operator()(Matrix *D_input) {
             // Call shared memory tiled Multiplication  algorithm
             MatrixMulKernel<<<dim_Grid2, dim_Block2>>> (
 
-                this -> weight -> elements, this -> weight -> height, this -> weight -> width, this -> weight -> depth,
+                FilterUnrolled -> elements, FilterUnrolled -> height, FilterUnrolled -> width, FilterUnrolled -> depth,
 
-                D_input -> elements, D_input -> height, D_input -> width, D_input -> depth,
+                InputUnrolled -> elements, InputUnrolled -> height, InputUnrolled -> width, InputUnrolled -> depth,
 
                 this -> Output -> elements, this -> Output -> height, this -> Output -> width, this -> Output -> depth,
 
@@ -277,9 +277,9 @@ Matrix* Conv2d::operator()(Matrix *D_input) {
             // Call shared memory tiled Multiplication  algorithm
             MatrixMulKernel<<<dim_Grid2, dim_Block2>>> (
 
-                this -> weight -> elements, this -> weight -> height, this -> weight -> width, this -> weight -> depth,
+                FilterUnrolled -> elements, FilterUnrolled -> height, FilterUnrolled -> width, FilterUnrolled -> depth,
 
-                D_input -> elements, D_input -> height, D_input -> width, D_input -> depth,
+                InputUnrolled -> elements, InputUnrolled -> height, InputUnrolled -> width, InputUnrolled -> depth,
 
                 this -> Output -> elements, this -> Output -> height, this -> Output -> width, this -> Output -> depth,
 

@@ -72,9 +72,11 @@ Matrix:: Matrix(int height, int width, int depth, int density, const float* elem
 
     }
 
+#ifdef DEBUG
     std:: cout << "Current matrix dimension is: "
                 << height << "x" << width << "x" << depth << "x" << density
                 << std::endl;
+#endif
 
 }
 
@@ -144,7 +146,9 @@ Matrix:: Matrix(int height, int width, int depth, const float* elements_ref, Mat
 
     }
 
+#ifdef DEBUG
     std:: cout << "Current matrix dimension is: " << height << "x" << width << "x" << depth << std::endl;
+#endif
 }
 
 
@@ -176,7 +180,9 @@ void Matrix:: Matrix_SetDimensions(int height, int width, int depth) {
     this -> width = width;
     this -> depth = depth;
 
+#ifdef DEBUG
     std:: cout << "Changed matrix dimension to: " << height << "x" << width << "x" << depth << std::endl;
+#endif
 }
 
 
@@ -204,7 +210,7 @@ void Matrix:: show_me_enhanced(float* ptr, const char* Name)
     // Get the current working directory
     char cwd[PATH_MAX];
     if (getcwd(cwd, sizeof(cwd)) != NULL) {
-        std::cout << "Current working directory: " << cwd << std::endl;
+        std::cout << "Dumping the matrix in: " << cwd << std::endl;
     } else {
         std::cerr << "getcwd() error" << std::endl;
     }

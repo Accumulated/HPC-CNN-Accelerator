@@ -3,9 +3,14 @@
 # Define target dependent flags. It defaults to G++ for cpp code.
 CC=nvcc
 
-CFLAGS=-g -O0
+MPI_INC = $(shell mpic++ --showme:compile)
+
+MPI_LIB = $(shell mpic++ --showme:link)
+
+CFLAGS=-g -O0 -ccbin=mpic++ $(MPI_INC) $(MPI_LIB)
 
 ProjectName = Acc
+
 
 #------------- Start of Software make related variables -------------#
 
@@ -96,12 +101,12 @@ all rebuild: clean_all $(ProjectName)
 
 
 $(ProjectName): SRC_RULE
-	@$(CC) $(wildcard $(OBJ_DIR)/*.o) -o $(EXEC_DIR)/$@
+	@$(CC) $(CFLAGS) $(wildcard $(OBJ_DIR)/*.o) -o $(EXEC_DIR)/$@
 	@echo "3. Exe rule - Finished"
 
 
 $(ProjectName)UT: UT_SRC_RULE
-	@$(CC) $(wildcard $(OBJ_DIR)/*.o) -o $(EXEC_DIR)/$@ -Wl,-Map=$(EXEC_DIR)/Map_FileUT.map
+	@$(CC) $(CFLAGS) $(wildcard $(OBJ_DIR)/*.o) -o $(EXEC_DIR)/$@ -Wl,-Map=$(EXEC_DIR)/Map_FileUT.map
 	@echo "2. Exe rule - Finished"
 
 

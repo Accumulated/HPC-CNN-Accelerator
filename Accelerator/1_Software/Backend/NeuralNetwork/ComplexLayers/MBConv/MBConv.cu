@@ -196,9 +196,12 @@ Matrix* MBConv:: operator()(Matrix* Input)
 
   for (auto layer : layers) {
     MBConvOut = (*layer)(MBConvOut);
+  
+#ifdef DEBUG
     std::cout << "Output dims: " << MBConvOut -> height << " x " << MBConvOut -> width <<  " x " << MBConvOut -> depth << std::endl;
-  }
+#endif
 
+  }
 
   // Skip identity layer
   if(this -> MBConvDetails -> Skip)

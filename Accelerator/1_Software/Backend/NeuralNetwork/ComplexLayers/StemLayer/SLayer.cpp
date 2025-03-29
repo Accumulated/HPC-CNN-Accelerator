@@ -12,10 +12,10 @@ SLayer::SLayer(const Basiclayer* SLayerDetails, Dimension* InputDim) : SLayerDet
 
         Conv2d* Conv1 = new Conv2d(
             CONV_KxK,                                 /* ConvType */
-            2,                                            /* stride */
-            1,                                            /* padding */
-            NO_ACTIVATION,                                /* ActivationTypes */
-            &(SLayerDetails->Conv),                       /* ConvDetails */
+            2,                                        /* stride */
+            1,                                        /* padding */
+            NO_ACTIVATION,                            /* ActivationTypes */
+            &(SLayerDetails->Conv),                   /* ConvDetails */
             MovingDimension
         );
 

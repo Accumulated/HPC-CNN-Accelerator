@@ -30,6 +30,7 @@ int main(void){
 
     MyNet -> run();
 
+    delete MyNet;
 
     MPI_Finalize();
 }

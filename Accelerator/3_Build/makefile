@@ -11,7 +11,6 @@ CFLAGS=-g -O0 -ccbin=mpic++ $(MPI_INC) $(MPI_LIB)
 
 ProjectName = Acc
 
-
 #------------- Start of Software make related variables -------------#
 
 # Define the needed directories of Source files, include files

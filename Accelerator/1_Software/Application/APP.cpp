@@ -21,7 +21,6 @@ int main(void){
 
     // Map MPI rank to a GPU
     int deviceID = rank % deviceCount;
-    //std::cout << "Process rank: " << rank << " is using device ID: " << deviceID << std::endl;
     
     // Assign this GPU to the process
     cudaSetDevice(deviceID);           

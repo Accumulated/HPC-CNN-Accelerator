@@ -4,10 +4,10 @@ class ReductionSum: public IBasicLayer{
 
 public:
 
-    Matrix *Output;
+    Matrix** Output;
 
     /* This is used for large arrays only if needed */
-    Matrix *TransitionMatrix;
+    Matrix** TransitionMatrix;
 
     ReductionSum(Dimension* InputDim);
     ~ReductionSum();
@@ -15,7 +15,7 @@ public:
     Dimension* InputDim;
     Dimension OutputDim;
 
-    Matrix* operator()(Matrix* D_Input);
+    Matrix** operator()(Matrix** D_Input);
     Dimension* RS_GetOutputDim();
     void ResetDims();
 

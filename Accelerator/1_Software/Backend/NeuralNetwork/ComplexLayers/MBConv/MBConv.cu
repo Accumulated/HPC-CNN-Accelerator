@@ -158,48 +158,49 @@ MBConv::~MBConv(){
 }
 
 
-Matrix* MBConv:: MBConv_SKIPID(Matrix *Parent, Matrix* Child)
+Matrix** MBConv:: MBConv_SKIPID(Matrix** Parent, Matrix** Child)
 {
-  int nbx = (int)ceil((float)(Parent -> width) / Tile_GEMM);
-  int nby = (int)ceil((float)(Parent -> height) / Tile_GEMM);
-  int nbz = Parent -> depth;
 
-  if (nbx == 0) nbx = 1;
+  for (int i = 0; i < this -> numberOfStreams; i++) {
+    int nbx = (int)ceil((float)(Parent[i] -> width) / Tile_GEMM);
+    int nby = (int)ceil((float)(Parent[i] -> height) / Tile_GEMM);
+    int nbz = Parent[i] -> depth;
 
-  if (nby == 0) nby = 1;
+    if (nbx == 0) nbx = 1;
 
-  // This is the only kernel that runs 3d Grid;
-  // Each block in z dimension controls 1 channel
-  dim3 dim_Grid2(nbx, nby, nbz);
-  dim3 dim_Block2(Tile_GEMM, Tile_GEMM, 1);
+    if (nby == 0) nby = 1;
 
-  Identity_Skip <<<dim_Grid2, dim_Block2 >>> (
+    // This is the only kernel that runs 3d Grid;
+    // Each block in z dimension controls 1 channel
+    dim3 dim_Grid2(nbx, nby, nbz);
+    dim3 dim_Block2(Tile_GEMM, Tile_GEMM, 1);
 
-    Parent -> elements,
-    Parent -> height,
-    Parent -> width,
-    Parent -> depth,
-    Child -> elements
+    Identity_Skip <<<dim_Grid2, dim_Block2, 0, this -> streams[i] >>> (
 
-  );
+      Parent[i] -> elements,
+      Parent[i] -> height,
+      Parent[i] -> width,
+      Parent[i] -> depth,
+      Child[i] -> elements
 
+    );
+  }
+
+    
   return Parent;
 
 }
 
 
 
-Matrix* MBConv:: operator()(Matrix* Input)
+Matrix** MBConv:: operator()(Matrix** Input)
 {
 
-  Matrix *MBConvOut = Input;
+  Matrix** MBConvOut = Input;
 
   for (auto layer : layers) {
     MBConvOut = (*layer)(MBConvOut);
   
-#ifdef DEBUG
-    std::cout << "Output dims: " << MBConvOut -> height << " x " << MBConvOut -> width <<  " x " << MBConvOut -> depth << std::endl;
-#endif
 
   }
 

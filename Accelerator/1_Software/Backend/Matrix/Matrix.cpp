@@ -189,7 +189,7 @@ void Matrix:: Matrix_SetDimensions(int height, int width, int depth) {
 void Matrix:: Matrix_DumpDeviceMemory(){
 
     size_t size = this -> density * this -> depth * this -> height * this -> width * sizeof(float);
-    std::cout << "Density: " << this->density << ", Depth: " << this->depth << ", Height: " << this->height << ", Width: " << this->width << ", Size: " << size << std::endl;
+    // std::cout << "Density: " << this->density << ", Depth: " << this->depth << ", Height: " << this->height << ", Width: " << this->width << ", Size: " << size << std::endl;
 
     float *ptr = new float[size];
 

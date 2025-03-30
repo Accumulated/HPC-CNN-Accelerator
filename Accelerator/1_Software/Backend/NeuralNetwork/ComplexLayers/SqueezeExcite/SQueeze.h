@@ -12,10 +12,8 @@ public:
 
     ~SQueeze();
 
-    Matrix* operator()(Matrix* D_input);
+    Matrix** operator()(Matrix** D_input);
     Dimension* SQ_GetOutputDim();
-
-    Matrix* Output;
 
     std::vector<IBasicLayer*> layers;
     Dimension* InputDim;

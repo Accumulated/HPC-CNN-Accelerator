@@ -13,7 +13,7 @@ public:
 
     ~FCLayer();
 
-    Matrix* operator()(Matrix *D_input);
+    Matrix** operator()(Matrix **D_input);
     Dimension* FCLayer_GetOutputDim();
 
     Dimension* InputDim = nullptr;
@@ -21,5 +21,5 @@ public:
     ActivationTypes activation_type;
     Matrix* weight = nullptr;
     Matrix* bias = nullptr;
-    Matrix* Output = nullptr;
+    Matrix** Output = nullptr;
 };

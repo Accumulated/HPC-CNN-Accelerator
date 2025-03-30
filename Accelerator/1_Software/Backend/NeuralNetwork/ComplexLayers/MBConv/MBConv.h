@@ -36,17 +36,16 @@ public:
     ~MBConv();
 
 
-    Matrix* operator()(Matrix* D_input);
-    Matrix* MBConv_SKIPID(Matrix *D_Input);
+    Matrix** operator()(Matrix** D_input);
+    Matrix** MBConv_SKIPID(Matrix** D_Input);
     Dimension* MBConv_GetOutputDim();
-    Matrix* MBConv_SKIPID(Matrix *Parent, Matrix* Child);
+    Matrix** MBConv_SKIPID(Matrix** Parent, Matrix** Child);
 
 
     std::vector<IBasicLayer*> layers;
 
 
     const MBConv_Abstraction *MBConvDetails;
-    Matrix* Output;
     Dimension OutputDim;
 
 };

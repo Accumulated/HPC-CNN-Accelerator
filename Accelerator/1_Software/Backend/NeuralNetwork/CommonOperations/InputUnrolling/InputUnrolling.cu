@@ -22,27 +22,33 @@ InputUnrolling::InputUnrolling(Dimension* InputDim, const ConvDetails* Conv_Deta
                         .Depth = 1
                       };
 
+  // Allocate an array of Matrix pointers
+  this -> InputUnrolled = new Matrix*[this -> numberOfStreams];
 
-  // The unrolled Input matrix has dimensions((C * k * k) x (H_out * W_out) x 1)
-  this -> InputUnrolled = new Matrix(
-                            this -> OutputDim.Height,
-                            this -> OutputDim.Width,
-                            this -> OutputDim.Depth,
-                            NULL,
-                            DefineOnDevice
-                          );
+  // Allocate an array of Matrix pointers
+  this -> FilterUnrolled = new Matrix*[this -> numberOfStreams];
 
-
-  // Unrolled filter has dimesnios (M x (C * k * k) x 1)
-  this -> FilterUnrolled = new Matrix(
-                              this -> ConvolutionOutputDim.Depth,
-                              this -> Conv_Details -> FilterDepth * this -> Conv_Details -> FilterHeight * this -> Conv_Details -> FilterWidth,
-                              1,
-                              this -> Conv_Details -> ConvWeights,
+  for (int i = 0; i < this -> numberOfStreams; i++) {
+    // The unrolled Input matrix has dimensions((C * k * k) x (H_out * W_out) x 1)
+    this -> InputUnrolled[i] = new Matrix(
+                              this -> OutputDim.Height,
+                              this -> OutputDim.Width,
+                              this -> OutputDim.Depth,
+                              NULL,
                               DefineOnDevice
                             );
 
 
+    // Unrolled filter has dimesnios (M x (C * k * k) x 1)
+    this -> FilterUnrolled[i] = new Matrix(
+                                this -> ConvolutionOutputDim.Depth,
+                                this -> Conv_Details -> FilterDepth * this -> Conv_Details -> FilterHeight * this -> Conv_Details -> FilterWidth,
+                                1,
+                                this -> Conv_Details -> ConvWeights,
+                                DefineOnDevice
+                              );
+
+  }
 }
 
 
@@ -52,7 +58,7 @@ InputUnrolling::~InputUnrolling() {
 }
 
 
-Matrix* InputUnrolling:: operator()() {
+Matrix** InputUnrolling:: operator()() {
 
   /*
     This overload is returning the unrolled filter ready for matrix multiplication.
@@ -63,13 +69,13 @@ Matrix* InputUnrolling:: operator()() {
 }
 
 
-Matrix* InputUnrolling:: operator()(Matrix* Device_Input) {
+Matrix** InputUnrolling:: operator()(Matrix** Device_Input) {
 
   /* Note: All the function input matrices are device matrices. */
 
   int nbx = (int)ceil((float)(this -> ConvolutionOutputDim.Width) / Tile_GEMM);
   int nby = (int)ceil((float)(this -> ConvolutionOutputDim.Height)  / Tile_GEMM);
-  int nbz = Device_Input -> depth;
+  int nbz = Device_Input[0] -> depth;
 
   if (nbx == 0) nbx = 1;
   if (nby == 0) nby = 1;
@@ -77,27 +83,31 @@ Matrix* InputUnrolling:: operator()(Matrix* Device_Input) {
   dim3 dim_Grid2(nbx, nby, nbz);
   dim3 dim_Block2(Tile_GEMM, Tile_GEMM, 1);
 
-  // You need to use cudaDeviceSynchronize if the kernel isn't working
-  INPUT_UNROLLING <<< dim_Grid2, dim_Block2 >>> (
+  for (int i = 0; i < this -> numberOfStreams; i++) {
 
-    this -> stride,
-    this -> Conv_Details -> FilterHeight,
+    // You need to use cudaDeviceSynchronize if the kernel isn't working
+    INPUT_UNROLLING <<< dim_Grid2, dim_Block2, 0, this -> streams[i] >>> (
 
-    Device_Input -> elements,
-    Device_Input -> height,
-    Device_Input -> width,
-    Device_Input -> depth,
+      this -> stride,
+      this -> Conv_Details -> FilterHeight,
 
-    this -> InputUnrolled -> elements,
-    this -> InputUnrolled -> height,
-    this -> InputUnrolled -> width,
-    this -> InputUnrolled -> depth,
+      Device_Input[i] -> elements,
+      Device_Input[i] -> height,
+      Device_Input[i] -> width,
+      Device_Input[i] -> depth,
 
-    this -> ConvolutionOutputDim.Height,
-    this -> ConvolutionOutputDim.Width
+      this -> InputUnrolled[i] -> elements,
+      this -> InputUnrolled[i] -> height,
+      this -> InputUnrolled[i] -> width,
+      this -> InputUnrolled[i] -> depth,
 
-  );
+      this -> ConvolutionOutputDim.Height,
+      this -> ConvolutionOutputDim.Width
 
+    );
+  }
+
+    
   return this -> InputUnrolled;
 
 }

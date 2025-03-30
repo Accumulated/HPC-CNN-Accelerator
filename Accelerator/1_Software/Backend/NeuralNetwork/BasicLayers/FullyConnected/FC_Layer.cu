@@ -26,8 +26,15 @@ FCLayer::FCLayer(const ConvDetails * Details, Dimension* InputDim, ActivationTyp
         .Depth = 1
     };
 
-    // Initialize the output matrix
-    Output = new Matrix(OutputDim.Height, OutputDim.Width, OutputDim.Depth, nullptr, DefineOnDevice);
+    // Allocate an array of Matrix pointers
+    this -> Output = new Matrix*[this -> numberOfStreams];
+
+    for (int i = 0; i < this -> numberOfStreams; i++) {
+
+        // Initialize the output matrix
+        Output[i] = new Matrix(OutputDim.Height, OutputDim.Width, OutputDim.Depth, nullptr, DefineOnDevice);
+
+    }
 }
 
 
@@ -42,12 +49,12 @@ FCLayer::~FCLayer(){
 }
 
 
-Matrix* FCLayer::operator()(Matrix* D_input){
+Matrix** FCLayer::operator()(Matrix** D_input){
 
     // Get number of blocks
-    int nbx = (int)ceil((float)this -> Output -> width / (THREAD_GRANULARITY_BLOCKS * Tile_GEMM));
-    int nby = (int)ceil((float)this -> Output -> height / Tile_GEMM);
-    int num_block_for_phases = (int)ceil((float)D_input -> depth / Tile_GEMM); //?????
+    int nbx = (int)ceil((float)this -> Output[0] -> width / (THREAD_GRANULARITY_BLOCKS * Tile_GEMM));
+    int nby = (int)ceil((float)this -> Output[0] -> height / Tile_GEMM);
+    int num_block_for_phases = (int)ceil((float)D_input[0] -> depth / Tile_GEMM); //?????
 
     // Check for zero blocks to make sure code runs correctly
     if (nbx == 0) nbx = 1;
@@ -56,21 +63,28 @@ Matrix* FCLayer::operator()(Matrix* D_input){
     dim3 dim_Grid2(nbx, nby, 1);
     dim3 dim_Block2(Tile_GEMM, Tile_GEMM, 1);
 
+    for (int i = 0; i < this -> numberOfStreams; i++) {
 
-    // Call shared memory tiled Multiplication  algorithm
-    MatrixMulKernel <<< dim_Grid2, dim_Block2 >>> (
-        D_input -> elements, D_input -> height, D_input -> depth, D_input -> width, //?????
-        this -> weight -> elements, this -> weight -> height, this -> weight -> width, this -> weight -> depth,
-        this -> Output -> elements, this -> Output -> height, this -> Output -> width, this -> Output -> depth,
-        num_block_for_phases, this -> activation_type,
-        BIASED, this -> bias -> elements
-    );
+        // Call shared memory tiled Multiplication  algorithm
+        MatrixMulKernel <<< dim_Grid2, dim_Block2, 0, this -> streams[i] >>> (
+            D_input[i] -> elements, D_input[i] -> height, D_input[i] -> depth, D_input[i] -> width, //?????
+            this -> weight -> elements, this -> weight -> height, this -> weight -> width, this -> weight -> depth,
+            this -> Output[i] -> elements, this -> Output[i] -> height, this -> Output[i] -> width, this -> Output[i] -> depth,
+            num_block_for_phases, this -> activation_type,
+            BIASED, this -> bias -> elements
+        );
+    }
 
     int blockSize = 256;
-    int numBlocks = (this -> Output -> width + blockSize - 1) / blockSize;
+    int numBlocks = (this -> Output[0] -> width + blockSize - 1) / blockSize;
 
-    MatrixAddKernel<<<numBlocks, blockSize>>> (this -> Output -> elements, this -> bias -> elements, this -> Output -> width);
+    
+    for (int i = 0; i < this -> numberOfStreams; i++) {
 
+        MatrixAddKernel<<<numBlocks, blockSize, 0, this -> streams[i]>>> (this -> Output[i] -> elements, this -> bias -> elements, this -> Output[i] -> width);
+
+    }
+    
     return this -> Output;
 
 }

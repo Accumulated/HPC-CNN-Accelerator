@@ -9,7 +9,7 @@ class BatchNorm: public IBasicLayer{
 
 public:
 
-    Matrix *Output;
+    Matrix **Output;
     Matrix *mean;
     Matrix *variance;
     Matrix *weights;
@@ -22,7 +22,7 @@ public:
     BatchNorm(const BatchNorm_Weights* Details, ActivationTypes activation, Dimension* InputDim);
     Dimension* BN_GetOutputDim();
 
-    Matrix* operator()(Matrix *D_input);
+    Matrix** operator()(Matrix **D_input);
 
 
 };

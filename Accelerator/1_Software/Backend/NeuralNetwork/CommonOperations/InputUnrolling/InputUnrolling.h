@@ -1,8 +1,9 @@
 #pragma once
 
+#include "IBasicLayer.h"
 
 
-class InputUnrolling{
+class InputUnrolling: public IBasicLayer {
 
 public:
 
@@ -10,11 +11,11 @@ public:
 
     ~InputUnrolling();
 
-    Matrix* operator()(Matrix* Device_Input);
-    Matrix* operator()();
+    Matrix** operator()(Matrix** Device_Input);
+    Matrix** operator()();
 
-    Matrix* FilterUnrolled;
-    Matrix* InputUnrolled;
+    Matrix** FilterUnrolled;
+    Matrix** InputUnrolled;
     Dimension OutputDim;
     Dimension ConvolutionOutputDim;
     Dimension* InputDim;

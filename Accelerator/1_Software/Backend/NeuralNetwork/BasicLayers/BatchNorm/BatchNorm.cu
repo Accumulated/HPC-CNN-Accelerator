@@ -40,11 +40,18 @@ BatchNorm:: BatchNorm(const BatchNorm_Weights* Details, ActivationTypes activati
                         .Depth = InputDim -> Depth
                       };
 
-  this -> Output = new Matrix(this -> OutputDim.Height,
-                              this -> OutputDim.Width,
-                              this -> OutputDim.Depth,
-                              NULL,
-                              DefineOnDevice);
+  // Allocate an array of Matrix pointers
+  this -> Output = new Matrix*[this -> numberOfStreams];
+
+  for (int i = 0; i < this -> numberOfStreams; i++) {
+
+    this -> Output[i] = new Matrix(this -> OutputDim.Height,
+                                this -> OutputDim.Width,
+                                this -> OutputDim.Depth,
+                                NULL,
+                                DefineOnDevice);
+  }
+
 
 }
 
@@ -54,7 +61,7 @@ Dimension* BatchNorm:: BN_GetOutputDim() {
 
 }
 
-Matrix* BatchNorm:: operator()(Matrix *D_input)
+Matrix** BatchNorm:: operator()(Matrix **D_input)
 {
 
     /* The D_input matrix is a device matrix */
@@ -70,9 +77,9 @@ Matrix* BatchNorm:: operator()(Matrix *D_input)
       (y = ((x - Mean) / (sqrt(variance) + epsilon)) * weights + bais)
     */
 
-    int nbx = (int)ceil((float)D_input -> width / Tile_GEMM);
-    int nby = (int)ceil((float)D_input -> height / Tile_GEMM);
-    int nbz = D_input -> depth;
+    int nbx = (int)ceil((float)D_input[0] -> width / Tile_GEMM);
+    int nby = (int)ceil((float)D_input[0] -> height / Tile_GEMM);
+    int nbz = D_input[0] -> depth;
 
     if (nbx == 0) nbx = 1;
     if (nby == 0) nby = 1;
@@ -82,22 +89,25 @@ Matrix* BatchNorm:: operator()(Matrix *D_input)
     dim3 dim_Grid3(nbx, nby, nbz);
     dim3 dim_Block3(Tile_GEMM, Tile_GEMM, 1);
 
-    BatchNormKernel <<< dim_Grid3, dim_Block3 >>> (
+    for (int i = 0; i < this -> numberOfStreams; i++) {
 
-      D_input -> elements,
+      BatchNormKernel <<< dim_Grid3, dim_Block3, 0, this -> streams[i] >>> (
 
-      this -> Output -> elements,
-      this -> Output -> height,
-      this -> Output -> width,
-      this -> Output -> depth,
+        D_input[i] -> elements,
 
-      this -> mean -> elements, this -> variance -> elements,
-      this -> weights -> elements, this -> bias -> elements,
+        this -> Output[i] -> elements,
+        this -> Output[i] -> height,
+        this -> Output[i] -> width,
+        this -> Output[i] -> depth,
 
-      this -> activation
+        this -> mean -> elements, this -> variance -> elements,
+        this -> weights -> elements, this -> bias -> elements,
 
-    );
+        this -> activation
 
+      );
+    }
 
+    
     return this -> Output;
 }

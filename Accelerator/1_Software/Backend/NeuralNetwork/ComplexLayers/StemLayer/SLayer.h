@@ -8,7 +8,7 @@ public:
     SLayer(const Basiclayer* SLayerDetails, Dimension* InputDim);
     ~SLayer();
 
-    Matrix* operator()(Matrix* D_input);
+    Matrix** operator()(Matrix** D_input);
     Dimension* SLayer_GetOutputDim();
 
 private:

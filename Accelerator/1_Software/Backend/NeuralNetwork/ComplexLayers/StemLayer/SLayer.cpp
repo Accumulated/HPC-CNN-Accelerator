@@ -58,9 +58,9 @@ SLayer::~SLayer() {
     }
 }
 
-Matrix* SLayer::operator()(Matrix* D_input) {
+Matrix** SLayer::operator()(Matrix** D_input) {
 
-    Matrix* output = D_input;
+    Matrix** output = D_input;
     for (IBasicLayer* layer : layers) {
         output = (*layer)(output);
     }

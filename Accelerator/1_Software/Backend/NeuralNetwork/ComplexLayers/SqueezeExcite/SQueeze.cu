@@ -64,7 +64,7 @@ SQueeze::~SQueeze()
 }
 
 
-Matrix * SQueeze:: operator()(Matrix* D_input){
+Matrix** SQueeze:: operator()(Matrix** D_input){
 
   /*
   Steps in squeeze and excite layer:
@@ -78,6 +78,7 @@ Matrix * SQueeze:: operator()(Matrix* D_input){
   Note: All input matrices are device allocated matrices
   */
 
+
   // Step 1: Get mean value for a tensor
 
   /*
@@ -89,40 +90,42 @@ Matrix * SQueeze:: operator()(Matrix* D_input){
     Matrix which is a device matrix.
     "This can be later changed"
   */
-
-  Matrix *Result_Mean = (*(layers[0]))(D_input);
+  Matrix** Result_Mean = (*(layers[0]))(D_input);
 
   // Step 2: pass the mean to the covolution, swish, convolution, sigmoid
-  Matrix *Result_Conv1 = (*(layers[1]))(Result_Mean);
-  Matrix *Result_Conv2 = (*(layers[2]))(Result_Conv1);
+  Matrix** Result_Conv1 = (*(layers[1]))(Result_Mean);
+  Matrix** Result_Conv2 = (*(layers[2]))(Result_Conv1);
 
 
-  /* Redesign later */
-  int nbx = (int)ceil((float)D_input -> width / Tile_GEMM);
-  int nby = (int)ceil((float)D_input -> height / Tile_GEMM);
-  int nbz = D_input -> depth;
+  for (int i = 0; i < this -> numberOfStreams; i++) {
+    
+    /* Redesign later */
+    int nbx = (int)ceil((float)D_input[i] -> width / Tile_GEMM);
+    int nby = (int)ceil((float)D_input[i] -> height / Tile_GEMM);
+    int nbz = D_input[i] -> depth;
 
-  if (nbx == 0) nbx = 1;
-  if (nby == 0) nby = 1;
-
-
-  // This is the only kernel that runs 3d Grid;
-  // Each block in z dimension controls 1 channel
-  dim3 dim_Grid2(nbx, nby, nbz);
-  dim3 dim_Block2(Tile_GEMM, Tile_GEMM, 1);
+    if (nbx == 0) nbx = 1;
+    if (nby == 0) nby = 1;
 
 
-  // C then D, the final multiplication is in C matrix
-  ConvChannelElementWiseMultiplication <<< dim_Grid2, dim_Block2 >>> (
+    // This is the only kernel that runs 3d Grid;
+    // Each block in z dimension controls 1 channel
+    dim3 dim_Grid2(nbx, nby, nbz);
+    dim3 dim_Block2(Tile_GEMM, Tile_GEMM, 1);
 
-    D_input -> elements,
-    D_input -> height,
-    D_input -> width,
-    D_input -> depth,
-    Result_Conv2 -> elements
 
-  );
+    // C then D, the final multiplication is in C matrix
+    ConvChannelElementWiseMultiplication <<< dim_Grid2, dim_Block2 >>> (
 
+      D_input[i] -> elements,
+      D_input[i] -> height,
+      D_input[i] -> width,
+      D_input[i] -> depth,
+      Result_Conv2[i] -> elements
+
+    );
+
+  }
 
   return D_input;
 }

@@ -14,7 +14,7 @@ public:
     }
 
 
-    virtual Matrix* operator()(Matrix* D_input) = 0;
+    virtual Matrix** operator()(Matrix** D_input) = 0;
 
 
 protected:

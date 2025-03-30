@@ -18,7 +18,7 @@ public:
 
     ~Conv2d();
 
-    Matrix* operator()(Matrix *D_input);
+    Matrix** operator()(Matrix **D_input);
     Dimension* Conv2d_GetOutputDim();
 
     int kernel_size;
@@ -29,7 +29,7 @@ public:
     ActivationTypes activation_type;
     Matrix* weight = nullptr;
     Matrix* bias = nullptr;
-    Matrix* Output = nullptr;
+    Matrix** Output = nullptr;
     PaddingLayer* pad = nullptr;
     InputUnrolling* Conv_InputUnrolling = nullptr;
     SupportConvolutionOPs ConvType;

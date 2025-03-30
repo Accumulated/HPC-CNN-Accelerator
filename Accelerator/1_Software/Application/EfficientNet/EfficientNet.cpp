@@ -23,7 +23,15 @@
 
 
 EfficientNet::EfficientNet() {
-    Input = new Matrix(224, 254, 3, Input_for_stem_conv, DefineOnDevice);
+
+    Input = new Matrix*[this -> numberOfStreams]; // Allocate an array of Matrix pointers
+
+    for (int i = 0; i < this -> numberOfStreams; i++) {
+
+        Input[i] = new Matrix(224, 254, 3, Input_for_stem_conv, DefineOnDevice);
+
+    }
+
     InputDim = Dimension{224, 254, 3};
     M = &InputDim;
 
@@ -66,11 +74,20 @@ EfficientNet::~EfficientNet() {
     delete Input;
 }
 
-void EfficientNet::run() {
-    Matrix* output = Input;
+Matrix** EfficientNet:: operator()(Matrix **D_input){
+
+    return (Matrix**) nullptr;
+}
+
+Matrix** EfficientNet:: operator()(){
+
+    Matrix** output = Input;
     for (auto& layer : NNModel) {
         output = (*layer)(output);
     }
-    output->Matrix_DumpDeviceMemory();
+
+    output[0] -> Matrix_DumpDeviceMemory();
+
+    return output;
 }
 

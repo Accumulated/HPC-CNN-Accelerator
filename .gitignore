@@ -1,5 +1,2 @@
-Accelerator/3_Build/exe/
-Accelerator/3_Build/Obj
-Accelerator/3_Build/PreProc/
-
-.vscode/
+Accelerator/3_Build/
+.vscode/*

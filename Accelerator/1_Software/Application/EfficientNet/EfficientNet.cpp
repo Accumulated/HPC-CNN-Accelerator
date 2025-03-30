@@ -24,6 +24,7 @@
 
 EfficientNet::EfficientNet() {
 
+
     Input = new Matrix*[this -> numberOfStreams]; // Allocate an array of Matrix pointers
 
     for (int i = 0; i < this -> numberOfStreams; i++) {

@@ -373,7 +373,5 @@ Matrix** Conv2d::operator()(Matrix **D_input) {
 
     }
 
-    cudaDeviceSynchronize();
-    
     return this -> Output;
 }

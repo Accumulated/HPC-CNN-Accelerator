@@ -2,3 +2,8 @@ To regenerate the results on Ubuntu:
 
 1. nsys profile --output ProfilingReport ./Acc
 2. nsys-ui ProfilingReport
+
+
+
+![Profiling for streams](result/profilingOutput.png)  
+*Figure: Profiling*  
